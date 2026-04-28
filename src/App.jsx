@@ -232,6 +232,7 @@ const shuffleArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
 // --- CSS ---
 const customStyles = `
+  body { overscroll-behavior-y: none; }
   .perspective-1000 { perspective: 1000px; }
   .transform-style-3d { transform-style: preserve-3d; }
   .backface-hidden { backface-visibility: hidden; }
@@ -1176,10 +1177,10 @@ export default function App() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center font-sans sm:p-6 text-slate-900">
+      <div className="fixed inset-0 bg-slate-100 flex items-center justify-center font-sans sm:p-6 text-slate-900">
         
         {/* Mobile Mockup */}
-        <div className="w-full h-screen sm:h-[850px] sm:w-[400px] bg-slate-50 sm:rounded-[3rem] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] sm:border-[10px] sm:border-slate-900 overflow-hidden relative">
+        <div className="w-full h-full sm:h-[850px] sm:w-[400px] bg-slate-50 sm:rounded-[3rem] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] sm:border-[10px] sm:border-slate-900 overflow-hidden relative">
           
           <div className="h-full w-full overflow-y-auto hide-scrollbar sm:pt-4 pb-28">
             {currentTab === 'path' && !gameMode && <JourneyMap unlockedLevelId={unlockedLevelId} onSelectLevel={handleSelectMapNode} />}
