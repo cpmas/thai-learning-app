@@ -498,7 +498,7 @@ const Lesson = ({ vocab, onBack }) => {
 
     return (
       <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
-        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
           <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
           <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
             {[0,1,2,3,4].map((i) => (
@@ -508,13 +508,13 @@ const Lesson = ({ vocab, onBack }) => {
           <Zap size={20} className="text-amber-500 fill-amber-500" />
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto">
-          <div className="mb-4 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
+          <div className="mb-4 text-center shrink-0">
              <h3 className="text-xl font-light text-slate-800">Speed Check</h3>
              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Does this match?</p>
           </div>
 
-          <div className={`w-full rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 p-8 flex flex-col items-center text-center transition-colors duration-300 ${containerClass}`}>
+          <div className={`w-full rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 p-8 flex flex-col items-center text-center transition-colors duration-300 shrink-0 ${containerClass}`}>
             <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentG.word.thai}</h2>
             <p className="text-lg text-slate-500 font-medium mb-6">"{currentG.word.phonetic}"</p>
             
@@ -524,7 +524,7 @@ const Lesson = ({ vocab, onBack }) => {
             <h3 className="text-3xl font-light text-slate-800">{currentG.displayEng}</h3>
           </div>
 
-          <div className="mt-8 w-full flex gap-4">
+          <div className="mt-8 w-full flex gap-4 shrink-0">
             <button 
               onClick={() => handleGameGuess(false)} 
               disabled={feedback !== null}
@@ -549,7 +549,7 @@ const Lesson = ({ vocab, onBack }) => {
 
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
-      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
           {vocab.map((_, i) => (
@@ -559,8 +559,8 @@ const Lesson = ({ vocab, onBack }) => {
         <span className="font-semibold text-slate-500 text-sm">{step + 1}/{vocab.length}</span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto">
-        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
+        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center shrink-0">
           <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100">{word.emoji}</div>
           
           <h2 className="text-5xl font-bold text-slate-900 mb-3">{word.thai}</h2>
@@ -592,7 +592,7 @@ const Lesson = ({ vocab, onBack }) => {
 
         <button 
           onClick={handleNextLearn} 
-          className="mt-8 w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2"
+          className="mt-8 w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shrink-0"
         >
           Got it <ArrowRight size={20} className="opacity-50" />
         </button>
@@ -611,14 +611,14 @@ const Flashcards = ({ vocab, onBack }) => {
 
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
-      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <span className="font-semibold text-slate-600 text-sm">Card {currentIndex + 1} / {vocab.length}</span>
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 perspective-1000">
-        <div onClick={() => { vibrate('tap'); setIsFlipped(!isFlipped); }} className={`relative w-full max-w-sm h-[24rem] cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 perspective-1000 overflow-y-auto hide-scrollbar">
+        <div onClick={() => { vibrate('tap'); setIsFlipped(!isFlipped); }} className={`relative w-full max-w-sm h-[24rem] shrink-0 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
           <div className="absolute inset-0 w-full h-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 flex flex-col items-center justify-center p-8 backface-hidden">
             <span className="text-6xl mb-8">{word.emoji}</span>
             <h2 className="text-5xl font-bold text-slate-900 mb-4 text-center">{word.thai}</h2>
@@ -640,7 +640,7 @@ const Flashcards = ({ vocab, onBack }) => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-6 mt-12">
+        <div className="flex items-center space-x-6 mt-12 shrink-0">
           <button onClick={() => { vibrate('tap'); handlePrev(); }} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowLeft size={24} /></button>
           <button onClick={() => { vibrate('tap'); handleNext(); }} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowRight size={24} /></button>
         </div>
@@ -694,21 +694,21 @@ const Quiz = ({ vocab, onBack }) => {
 
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
-      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
          <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
           {questions.map((_, i) => <div key={i} className={`h-1 flex-1 max-w-[15px] rounded-full ${i < currentQIndex ? 'bg-slate-800' : i === currentQIndex ? 'bg-slate-400' : 'bg-slate-200'}`} />)}
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center p-6 pt-12">
-        <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8">
+      <div className="flex-1 flex flex-col items-center p-6 pt-12 pb-24 sm:pb-6 overflow-y-auto hide-scrollbar">
+        <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8 shrink-0">
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Translate</p>
           <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentQ.target.thai}</h2>
           <p className="text-lg text-slate-500">"{currentQ.target.phonetic}"</p>
         </div>
 
-        <div className="w-full max-w-sm space-y-3">
+        <div className="w-full max-w-sm space-y-3 shrink-0">
           {currentQ.options.map((opt) => {
             let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
             let Icon = null;
@@ -774,21 +774,21 @@ const MatchGame = ({ vocab, onBack }) => {
 
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
-       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
          <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="font-semibold text-slate-600 text-sm">Moves: {moves}</div>
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 overflow-y-auto hide-scrollbar">
         {matched === 6 ? (
-           <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm">
+           <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm shrink-0">
              <Trophy size={50} className="mx-auto text-slate-800 mb-4" />
              <h2 className="text-2xl font-light text-slate-900 mb-6">Completed in {moves} moves</h2>
              <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full bg-slate-900 text-white py-4 rounded-[1.5rem] font-semibold active:scale-95">Done</button>
            </div>
         ) : (
-          <div className="grid grid-cols-3 gap-3 w-full max-w-md perspective-1000">
+          <div className="grid grid-cols-3 gap-3 w-full max-w-md perspective-1000 shrink-0 mb-8 sm:mb-0">
             {cards.map((c, i) => (
               <div key={c.id} onClick={() => handleCardClick(i)} className={`relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 transform-style-3d ${c.flip || c.match ? 'rotate-y-180' : ''}`}>
                 <div className={`absolute inset-0 w-full h-full bg-slate-800 rounded-[1rem] backface-hidden flex items-center justify-center ${c.match ? 'opacity-0' : 'opacity-100'}`}>
@@ -849,18 +849,18 @@ const TestQuiz = ({ vocab, onIncorrect, onComplete }) => {
   const currentQ = questions[currentQIndex];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto animation-fade-in">
-      <div className="mb-4 text-center">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
+      <div className="mb-4 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 1: Translate</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{currentQIndex + 1} of 4</p>
       </div>
 
-      <div className="bg-white w-full rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8">
+      <div className="bg-white w-full rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8 shrink-0">
         <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentQ.target.thai}</h2>
         <p className="text-lg text-slate-500">"{currentQ.target.phonetic}"</p>
       </div>
 
-      <div className="w-full space-y-3">
+      <div className="w-full space-y-3 shrink-0">
         {currentQ.options.map((opt) => {
           let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
           if (selectedAnswer) {
@@ -919,13 +919,13 @@ const TestMatch = ({ vocab, onIncorrect, onComplete }) => {
   if (!leftWords.length) return null;
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto animation-fade-in">
-      <div className="mb-6 text-center">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
+      <div className="mb-6 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 2: Connect</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{matchedPairs.length} of 4</p>
       </div>
 
-      <div className="flex w-full gap-4">
+      <div className="flex w-full gap-4 shrink-0">
         <div className="flex-1 flex flex-col gap-3">
           {leftWords.map(word => {
             const isMatched = matchedPairs.includes(word.id);
@@ -1028,17 +1028,17 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-6 max-w-md mx-auto w-full animation-fade-in">
-      <div className="mb-4 text-center">
+    <div className="flex-1 flex flex-col p-6 pb-24 sm:pb-6 max-w-md mx-auto w-full animation-fade-in overflow-y-auto hide-scrollbar">
+      <div className="mb-4 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 3: Build</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{currentIdx + 1} of 6</p>
       </div>
 
-      <div className="mb-6 text-center">
+      <div className="mb-6 text-center shrink-0">
          <p className="text-xl font-semibold text-slate-800">{sentenceData.eng}</p>
       </div>
 
-      <div className={`min-h-[120px] w-full p-4 rounded-[1.5rem] flex flex-wrap content-start gap-2 border-2 border-dashed transition-colors
+      <div className={`min-h-[120px] w-full p-4 rounded-[1.5rem] flex flex-wrap content-start gap-2 border-2 border-dashed transition-colors shrink-0
          ${status === 'correct' ? 'border-green-400 bg-green-50' : status === 'incorrect' ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'}
       `}>
         {selectedWords.length === 0 && status === 'playing' && (
@@ -1059,7 +1059,7 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
         })}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2 justify-center">
+      <div className="mt-6 flex flex-wrap gap-2 justify-center shrink-0">
          {wordBank.map((word, idx) => {
            const usedCount = selectedWords.filter(w => w === word).length;
            const bankCount = wordBank.filter(w => w === word).length;
@@ -1072,7 +1072,7 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
          })}
       </div>
 
-      <div className="mt-auto pt-6">
+      <div className="mt-auto pt-6 shrink-0 w-full">
         <button onClick={checkAnswer} disabled={selectedWords.length === 0 || status !== 'playing'} className="w-full bg-slate-900 disabled:bg-slate-200 disabled:text-slate-400 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all">
           Check
         </button>
@@ -1130,7 +1130,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
 
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
-      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shadow-sm z-10">
+      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shadow-sm z-10 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
           {[0, 1, 2].map((p) => (
@@ -1177,12 +1177,12 @@ export default function App() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
-      <div className="fixed inset-0 bg-slate-100 flex items-center justify-center font-sans sm:p-6 text-slate-900">
+      <div className="fixed inset-0 h-[100dvh] w-full bg-slate-100 flex items-center justify-center font-sans sm:p-6 text-slate-900">
         
         {/* Mobile Mockup */}
-        <div className="w-full h-full sm:h-[850px] sm:w-[400px] bg-slate-50 sm:rounded-[3rem] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] sm:border-[10px] sm:border-slate-900 overflow-hidden relative">
+        <div className="w-full h-full sm:h-[850px] sm:w-[400px] bg-slate-50 sm:rounded-[3rem] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] sm:border-[10px] sm:border-slate-900 overflow-hidden relative flex flex-col">
           
-          <div className="h-full w-full overflow-y-auto hide-scrollbar sm:pt-4 pb-28">
+          <div className="flex-1 w-full overflow-y-auto hide-scrollbar sm:pt-4 pb-24">
             {currentTab === 'path' && !gameMode && <JourneyMap unlockedLevelId={unlockedLevelId} onSelectLevel={handleSelectMapNode} />}
             {currentTab === 'study' && !gameMode && <StudyHub level={activeLevel} unlockedLevelId={unlockedLevelId} onSelectMode={setGameMode} />}
             {currentTab === 'dictionary' && !gameMode && <Dictionary />}
@@ -1198,7 +1198,7 @@ export default function App() {
           </div>
 
           {!gameMode && (
-            <div className="absolute bottom-0 w-full bg-white/80 backdrop-blur-md border-t border-slate-200 px-6 py-4 sm:pb-6 flex justify-around items-center z-40">
+            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 px-6 py-4 pb-6 sm:pb-6 flex justify-around items-center z-40 shrink-0">
                {[
                  { id: 'path', icon: MapIcon, label: 'Path' },
                  { id: 'study', icon: GraduationCap, label: 'Study' },
