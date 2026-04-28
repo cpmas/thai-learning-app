@@ -1,8 +1,24 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Play, BookOpen, Brain, ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, XCircle, Trophy, Map as MapIcon, BookMarked, GraduationCap, Sparkles, ChevronDown, ChevronUp, Lock, Unlock, Grid, Heart, AlertCircle } from 'lucide-react';
 
+// --- HAPTIC UTILITY ---
+const vibrate = (type = 'tap') => {
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try {
+      if (type === 'tap') navigator.vibrate(10);
+      else if (type === 'correct') navigator.vibrate([15, 30, 15]);
+      else if (type === 'incorrect') navigator.vibrate([30, 50, 30]);
+      else if (type === 'win') navigator.vibrate([20, 50, 20, 50, 20]);
+      else if (type === 'fail') navigator.vibrate([50, 100, 50]);
+    } catch (e) {
+      console.log("Vibration failed:", e);
+    }
+  }
+};
+
 // --- AUDIO UTILITY ---
 const playSound = (type) => {
+  vibrate(type);
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
@@ -60,13 +76,13 @@ const LEVELS = [
     subtitle: 'Hello and Names',
     icon: '👋',
     vocab: [
-      { id: 1, thai: 'สวัสดี', phonetic: 'sà-wàt-dee', eng: 'Hello', emoji: '👋', structure: 'Low, Low, Mid tone. A universal greeting used at any time of day for hello or goodbye.' },
-      { id: 2, thai: 'ขอบคุณ', phonetic: 'kòp-kun', eng: 'Thank you', emoji: '🙏', structure: 'Low, Mid tone. The standard, polite way to express gratitude.' },
-      { id: 3, thai: 'ผม', phonetic: 'pǒm', eng: 'I (male)', emoji: '👨', structure: 'Rising tone. The polite pronoun used by males to refer to themselves.' },
-      { id: 4, thai: 'ฉัน', phonetic: 'chǎn', eng: 'I (female)', emoji: '👩', structure: 'Rising tone. The polite pronoun used by females to refer to themselves.' },
-      { id: 5, thai: 'คุณ', phonetic: 'kun', eng: 'You', emoji: '👉', structure: 'Mid tone. A polite pronoun for "you", placed before names or used on its own.' },
-      { id: 6, thai: 'ชื่อ', phonetic: 'chûe', eng: 'Name', emoji: '🏷️', structure: 'Falling tone. Means "name" but also acts as the verb "to be named".' },
-      { id: 7, thai: 'อะไร', phonetic: 'a-rai', eng: 'What', emoji: '🤷', structure: 'Low, Mid tone. The question word for "what", usually placed at the very end of a sentence.' },
+      { id: 1, thai: 'สวัสดี', phonetic: 'sà-wàt-dee', eng: 'Hello', emoji: '👋', tone: 'Low, Low, Mid tone', usage: 'A universal greeting used at any time of day for hello or goodbye.' },
+      { id: 2, thai: 'ขอบคุณ', phonetic: 'kòp-kun', eng: 'Thank you', emoji: '🙏', tone: 'Low, Mid tone', usage: 'The standard, polite way to express gratitude.' },
+      { id: 3, thai: 'ผม', phonetic: 'pǒm', eng: 'I (male)', emoji: '👨', tone: 'Rising tone', usage: 'The polite pronoun used by males to refer to themselves.' },
+      { id: 4, thai: 'ฉัน', phonetic: 'chǎn', eng: 'I (female)', emoji: '👩', tone: 'Rising tone', usage: 'The polite pronoun used by females to refer to themselves.' },
+      { id: 5, thai: 'คุณ', phonetic: 'kun', eng: 'You', emoji: '👉', tone: 'Mid tone', usage: 'A polite pronoun for "you", placed before names or used on its own.' },
+      { id: 6, thai: 'ชื่อ', phonetic: 'chûe', eng: 'Name', emoji: '🏷️', tone: 'Falling tone', usage: 'Means "name" but also acts as the verb "to be named".' },
+      { id: 7, thai: 'อะไร', phonetic: 'a-rai', eng: 'What', emoji: '🤷', tone: 'Low, Mid tone', usage: 'The question word for "what", usually placed at the very end of a sentence.' },
     ],
     sentences: [
       { eng: "Hello, what is your name?", thai: ["สวัสดี", "คุณ", "ชื่อ", "อะไร"] },
@@ -83,14 +99,14 @@ const LEVELS = [
     subtitle: 'Countries and Cities',
     icon: '🗺️',
     vocab: [
-      { id: 201, thai: 'มาจาก', phonetic: 'maa jàak', eng: 'Come from', emoji: '🛫', structure: 'Mid, Low tone. A compound of "maa" (to come) and "jàak" (from).' },
-      { id: 202, thai: 'ประเทศ', phonetic: 'bprà-têet', eng: 'Country', emoji: '🗺️', structure: 'Low, Falling tone. Always placed directly before the name of a country (e.g., bprà-têet tai).' },
-      { id: 203, thai: 'เมือง', phonetic: 'mueang', eng: 'City', emoji: '🏙️', structure: 'Mid tone. Means city or town, placed before the city name.' },
-      { id: 204, thai: 'คน', phonetic: 'kon', eng: 'Person', emoji: '🧍', structure: 'Mid tone. Placed before a country name to denote nationality (e.g., kon tai = Thai person).' },
-      { id: 205, thai: 'ไทย', phonetic: 'tai', eng: 'Thai', emoji: '🇹🇭', structure: 'Mid tone. Means Thai or Thailand. Translates literally to "free".' },
-      { id: 206, thai: 'อังกฤษ', phonetic: 'ang-grìt', eng: 'England', emoji: '🇬🇧', structure: 'Mid, Low tone. Refers to England or the English language/people.' },
-      { id: 207, thai: 'ที่ไหน', phonetic: 'tîi-nǎi', eng: 'Where', emoji: '📍', structure: 'Falling, Rising tone. The question word for "where", placed at the end of the sentence.' },
-      { id: 208, thai: 'และ', phonetic: 'láe', eng: 'And', emoji: '➕', structure: 'High tone. Conjunction used strictly to link nouns together, not verbs.' },
+      { id: 201, thai: 'มาจาก', phonetic: 'maa jàak', eng: 'Come from', emoji: '🛫', tone: 'Mid, Low tone', usage: 'A compound of "maa" (to come) and "jàak" (from).' },
+      { id: 202, thai: 'ประเทศ', phonetic: 'bprà-têet', eng: 'Country', emoji: '🗺️', tone: 'Low, Falling tone', usage: 'Always placed directly before the name of a country (e.g., bprà-têet tai).' },
+      { id: 203, thai: 'เมือง', phonetic: 'mueang', eng: 'City', emoji: '🏙️', tone: 'Mid tone', usage: 'Means city or town, placed before the city name.' },
+      { id: 204, thai: 'คน', phonetic: 'kon', eng: 'Person', emoji: '🧍', tone: 'Mid tone', usage: 'Placed before a country name to denote nationality (e.g., kon tai = Thai person).' },
+      { id: 205, thai: 'ไทย', phonetic: 'tai', eng: 'Thai', emoji: '🇹🇭', tone: 'Mid tone', usage: 'Means Thai or Thailand. Translates literally to "free".' },
+      { id: 206, thai: 'อังกฤษ', phonetic: 'ang-grìt', eng: 'England', emoji: '🇬🇧', tone: 'Mid, Low tone', usage: 'Refers to England or the English language/people.' },
+      { id: 207, thai: 'ที่ไหน', phonetic: 'tîi-nǎi', eng: 'Where', emoji: '📍', tone: 'Falling, Rising tone', usage: 'The question word for "where", placed at the end of the sentence.' },
+      { id: 208, thai: 'และ', phonetic: 'láe', eng: 'And', emoji: '➕', tone: 'High tone', usage: 'Conjunction used strictly to link nouns together, not verbs.' },
     ],
     sentences: [
       { eng: "Where do you come from?", thai: ["คุณ", "มาจาก", "ที่ไหน"] },
@@ -106,12 +122,12 @@ const LEVELS = [
     subtitle: 'To be or not to be',
     icon: '🍲',
     vocab: [
-      { id: 301, thai: 'เป็น', phonetic: 'bpen', eng: 'Is/Am/Are', emoji: '🔗', structure: 'Mid tone. Used to link a noun to another noun, e.g., "I am a person".' },
-      { id: 302, thai: 'ไม่', phonetic: 'mâi', eng: 'No / Not', emoji: '❌', structure: 'Falling tone. Placed immediately before a verb or adjective to negate it.' },
-      { id: 303, thai: 'ใช่', phonetic: 'châi', eng: 'Yes / Correct', emoji: '✅', structure: 'Falling tone. Means correct. Combine with "mâi" (mâi châi) to say "is not".' },
-      { id: 304, thai: 'อาหาร', phonetic: 'aa-hǎan', eng: 'Food', emoji: '🍲', structure: 'Mid, Rising tone. Formal word for food, borrowed from ancient Sanskrit.' },
-      { id: 305, thai: 'น้ำ', phonetic: 'náam', eng: 'Water', emoji: '💧', structure: 'High tone. Means liquid/water. Placed before other words to name liquids.' },
-      { id: 306, thai: 'อร่อย', phonetic: 'a-ròi', eng: 'Delicious', emoji: '😋', structure: 'Low, Low tone. Placed directly after the noun it describes (e.g., food delicious).' },
+      { id: 301, thai: 'เป็น', phonetic: 'bpen', eng: 'Is/Am/Are', emoji: '🔗', tone: 'Mid tone', usage: 'Used to link a noun to another noun, e.g., "I am a person".' },
+      { id: 302, thai: 'ไม่', phonetic: 'mâi', eng: 'No / Not', emoji: '❌', tone: 'Falling tone', usage: 'Placed immediately before a verb or adjective to negate it.' },
+      { id: 303, thai: 'ใช่', phonetic: 'châi', eng: 'Yes / Correct', emoji: '✅', tone: 'Falling tone', usage: 'Means correct. Combine with "mâi" (mâi châi) to say "is not".' },
+      { id: 304, thai: 'อาหาร', phonetic: 'aa-hǎan', eng: 'Food', emoji: '🍲', tone: 'Mid, Rising tone', usage: 'Formal word for food, borrowed from ancient Sanskrit.' },
+      { id: 305, thai: 'น้ำ', phonetic: 'náam', eng: 'Water', emoji: '💧', tone: 'High tone', usage: 'Means liquid/water. Placed before other words to name liquids.' },
+      { id: 306, thai: 'อร่อย', phonetic: 'a-ròi', eng: 'Delicious', emoji: '😋', tone: 'Low, Low tone', usage: 'Placed directly after the noun it describes (e.g., food delicious).' },
     ],
     sentences: [
       { eng: "Yes, I am a Thai person. (Female)", thai: ["ใช่", "ฉัน", "เป็น", "คน", "ไทย"] },
@@ -128,11 +144,11 @@ const LEVELS = [
     subtitle: 'Who, what, where...',
     icon: '❓',
     vocab: [
-      { id: 401, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', structure: 'Mid tone. Can act as the subject (Who eats?) or object (Eat who?).' },
-      { id: 402, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', structure: 'Mid, Mid tone. The question word for "why", usually placed at the start of a sentence.' },
-      { id: 403, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', structure: 'Low tone. Indicates physical location. Literally "To be (somewhere)".' },
-      { id: 404, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', structure: 'Mid tone. Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
-      { id: 405, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', structure: 'Falling tone. Placed before a noun or verb to indicate preference or favor.' },
+      { id: 401, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', tone: 'Mid tone', usage: 'Can act as the subject (Who eats?) or object (Eat who?).' },
+      { id: 402, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', tone: 'Mid, Mid tone', usage: 'The question word for "why", usually placed at the start of a sentence.' },
+      { id: 403, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', tone: 'Low tone', usage: 'Indicates physical location. Literally "To be (somewhere)".' },
+      { id: 404, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', tone: 'Mid tone', usage: 'Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
+      { id: 405, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', tone: 'Falling tone', usage: 'Placed before a noun or verb to indicate preference or favor.' },
     ],
     sentences: [
       { eng: "Who likes to drink water?", thai: ["ใคร", "ชอบ", "กิน", "น้ำ"] },
@@ -149,14 +165,14 @@ const LEVELS = [
     subtitle: 'Animals & the world',
     icon: '🐘',
     vocab: [
-      { id: 501, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', structure: 'Mid tone. Onomatopoeia - it sounds exactly like a meow!' },
-      { id: 502, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', structure: 'Rising tone. Informal root word for dog.' },
-      { id: 503, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', structure: 'High tone. Root word for elephant.' },
-      { id: 504, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', structure: 'High tone. Root word for bird.' },
-      { id: 505, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', structure: 'Mid tone. Root word for fish.' },
-      { id: 506, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', structure: 'High, Mid tone. Root word for the sea.' },
-      { id: 507, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', structure: 'Low tone. An adjective that is always placed AFTER the noun it describes.' },
-      { id: 508, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', structure: 'High tone. An adjective that is always placed AFTER the noun it describes.' },
+      { id: 501, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', tone: 'Mid tone', usage: 'Onomatopoeia - it sounds exactly like a meow!' },
+      { id: 502, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', tone: 'Rising tone', usage: 'Informal root word for dog.' },
+      { id: 503, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', tone: 'High tone', usage: 'Root word for elephant.' },
+      { id: 504, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', tone: 'High tone', usage: 'Root word for bird.' },
+      { id: 505, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', tone: 'Mid tone', usage: 'Root word for fish.' },
+      { id: 506, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', tone: 'High, Mid tone', usage: 'Root word for the sea.' },
+      { id: 507, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', tone: 'Low tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+      { id: 508, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', tone: 'High tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
     ],
     sentences: [
       { eng: "A cat is not a dog.", thai: ["แมว", "ไม่", "ใช่", "หมา"] },
@@ -173,13 +189,13 @@ const LEVELS = [
     subtitle: 'Counting and buying',
     icon: '🛒',
     vocab: [
-      { id: 601, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', structure: 'Low tone. Root number one.' },
-      { id: 602, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', structure: 'Rising tone. Root number two.' },
-      { id: 603, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', structure: 'Rising tone. Root number three.' },
-      { id: 604, thai: 'ซื้อ', phonetic: 'súe', eng: 'Buy', emoji: '🛍️', structure: 'High tone. Means to purchase something.' },
-      { id: 605, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', structure: 'Low tone. The official Thai currency.' },
-      { id: 606, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '💸', structure: 'Mid tone. Means high cost or pricey.' },
-      { id: 607, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', structure: 'Falling, Low tone. The standard question word for asking quantity or price.' },
+      { id: 601, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', tone: 'Low tone', usage: 'Root number one.' },
+      { id: 602, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', tone: 'Rising tone', usage: 'Root number two.' },
+      { id: 603, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', tone: 'Rising tone', usage: 'Root number three.' },
+      { id: 604, thai: 'ซื้อ', phonetic: 'súe', eng: 'Buy', emoji: '🛍️', tone: 'High tone', usage: 'Means to purchase something.' },
+      { id: 605, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', tone: 'Low tone', usage: 'The official Thai currency.' },
+      { id: 606, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '💸', tone: 'Mid tone', usage: 'Means high cost or pricey.' },
+      { id: 607, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', tone: 'Falling, Low tone', usage: 'The standard question word for asking quantity or price.' },
     ],
     sentences: [
       { eng: "How much is the food?", thai: ["อาหาร", "เท่าไหร่"] },
@@ -420,18 +436,28 @@ const Lesson = ({ vocab, onBack }) => {
           
           <h3 className="text-2xl font-light text-slate-800 mb-8">{word.eng}</h3>
           
-          <div className="w-full bg-slate-50 rounded-[1rem] p-5 text-left">
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
-              Usage & Tone
-            </p>
-            <p className="text-sm font-medium text-slate-700">
-              {word.structure}
-            </p>
+          <div className="w-full space-y-3">
+            <div className="w-full bg-slate-50 rounded-[1rem] p-4 text-left">
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                Usage
+              </p>
+              <p className="text-sm font-medium text-slate-700">
+                {word.usage}
+              </p>
+            </div>
+            <div className="w-full bg-indigo-50/50 border border-indigo-50 rounded-[1rem] p-4 text-left">
+              <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                Tone
+              </p>
+              <p className="text-sm font-medium text-indigo-900">
+                {word.tone}
+              </p>
+            </div>
           </div>
         </div>
 
         <button 
-          onClick={() => setStep(s => s + 1)} 
+          onClick={() => { vibrate('tap'); setStep(s => s + 1); }} 
           className="mt-8 w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2"
         >
           Got it <ArrowRight size={20} className="opacity-50" />
@@ -458,7 +484,7 @@ const Flashcards = ({ vocab, onBack }) => {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-6 perspective-1000">
-        <div onClick={() => setIsFlipped(!isFlipped)} className={`relative w-full max-w-sm h-[24rem] cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+        <div onClick={() => { vibrate('tap'); setIsFlipped(!isFlipped); }} className={`relative w-full max-w-sm h-[24rem] cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
           <div className="absolute inset-0 w-full h-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 flex flex-col items-center justify-center p-8 backface-hidden">
             <span className="text-6xl mb-8">{word.emoji}</span>
             <h2 className="text-5xl font-bold text-slate-900 mb-4 text-center">{word.thai}</h2>
@@ -466,17 +492,23 @@ const Flashcards = ({ vocab, onBack }) => {
           </div>
           <div className="absolute inset-0 w-full h-full bg-slate-900 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.1)] flex flex-col items-center justify-center p-8 backface-hidden rotate-y-180 text-white">
             <h2 className="text-3xl font-light text-center mb-8">{word.eng}</h2>
-            <div className="w-full bg-white/10 rounded-[1rem] p-5 text-left border border-white/5">
-               <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 font-bold">Usage & Tone</p>
-               <p className="text-sm font-medium text-slate-200">{word.structure}</p>
+            <div className="w-full bg-white/10 rounded-[1rem] p-4 text-left border border-white/5 space-y-3">
+               <div>
+                 <p className="text-[9px] text-slate-400 uppercase tracking-widest mb-1 font-bold">Usage</p>
+                 <p className="text-sm font-medium text-slate-200 leading-tight">{word.usage}</p>
+               </div>
+               <div className="border-t border-white/10 pt-3">
+                 <p className="text-[9px] text-slate-400 uppercase tracking-widest mb-1 font-bold">Tone</p>
+                 <p className="text-sm font-medium text-slate-200 leading-tight">{word.tone}</p>
+               </div>
             </div>
             <p className="absolute bottom-6 text-xs text-slate-500 uppercase tracking-widest">Tap to flip</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-6 mt-12">
-          <button onClick={handlePrev} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowLeft size={24} /></button>
-          <button onClick={handleNext} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowRight size={24} /></button>
+          <button onClick={() => { vibrate('tap'); handlePrev(); }} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowLeft size={24} /></button>
+          <button onClick={() => { vibrate('tap'); handleNext(); }} className="bg-white p-4 rounded-full shadow-sm border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"><ArrowRight size={24} /></button>
         </div>
       </div>
     </div>
@@ -583,6 +615,7 @@ const MatchGame = ({ vocab, onBack }) => {
 
   const handleCardClick = (i) => {
     if (flipped.length === 2 || cards[i].flip || cards[i].match) return;
+    vibrate('tap');
     const newC = [...cards]; newC[i].flip = true; setCards(newC);
     const newF = [...flipped, i]; setFlipped(newF);
 
@@ -770,7 +803,7 @@ const TestMatch = ({ vocab, onIncorrect, onComplete }) => {
                btnClass = errorPair ? "bg-red-500 border-red-500 text-white" : "bg-slate-800 border-slate-800 text-white scale-105";
             }
             return (
-              <button key={`l-${word.id}`} disabled={isMatched || errorPair} onClick={() => setLeftSelected(word)} className={`p-3 rounded-[1rem] border shadow-sm transition-all flex flex-col items-center justify-center ${btnClass}`}>
+              <button key={`l-${word.id}`} disabled={isMatched || errorPair} onClick={() => { vibrate('tap'); setLeftSelected(word); }} className={`p-3 rounded-[1rem] border shadow-sm transition-all flex flex-col items-center justify-center ${btnClass}`}>
                 <span className="font-bold text-lg leading-tight">{word.thai}</span>
                 <span className={`text-[10px] font-normal mt-0.5 ${isSelected && !errorPair ? 'text-slate-300' : isMatched ? 'text-slate-300' : 'text-slate-400'}`}>
                   {word.phonetic}
@@ -790,7 +823,7 @@ const TestMatch = ({ vocab, onIncorrect, onComplete }) => {
                btnClass = errorPair ? "bg-red-500 border-red-500 text-white" : "bg-slate-800 border-slate-800 text-white scale-105";
             }
             return (
-              <button key={`r-${word.id}`} disabled={isMatched || errorPair} onClick={() => setRightSelected(word)} className={`p-4 rounded-[1rem] border shadow-sm font-bold text-sm transition-all flex items-center justify-center ${btnClass}`}>
+              <button key={`r-${word.id}`} disabled={isMatched || errorPair} onClick={() => { vibrate('tap'); setRightSelected(word); }} className={`p-4 rounded-[1rem] border shadow-sm font-bold text-sm transition-all flex items-center justify-center ${btnClass}`}>
                 {word.eng}
               </button>
             )
@@ -817,11 +850,13 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
 
   const handleSelectWord = (word) => {
     if (status !== 'playing') return;
+    vibrate('tap');
     setSelectedWords([...selectedWords, word]);
   };
 
   const handleRemoveWord = (index) => {
     if (status !== 'playing') return;
+    vibrate('tap');
     const newSelected = [...selectedWords];
     newSelected.splice(index, 1);
     setSelectedWords(newSelected);
