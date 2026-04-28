@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://<cpmas>.github.io/<thai-learning-app>",
+  "homepage": "https://calemason.github.io/thai-learning-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

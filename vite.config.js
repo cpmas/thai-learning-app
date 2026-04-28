@@ -7,5 +7,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/<thai-learning-app>/', // Don't forget to replace this with your GitHub repo name!
+  base: '/thai-learning-app/', 
 })
