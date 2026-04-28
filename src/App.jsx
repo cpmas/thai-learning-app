@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Play, BookOpen, Brain, ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, XCircle, Trophy, Map as MapIcon, BookMarked, GraduationCap, Sparkles, ChevronDown, ChevronUp, Lock, Unlock, Grid, Heart, AlertCircle } from 'lucide-react';
+import { Play, BookOpen, Brain, ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, XCircle, Trophy, Map as MapIcon, BookMarked, GraduationCap, Sparkles, ChevronDown, ChevronUp, Lock, Unlock, Grid, Heart, AlertCircle, Zap } from 'lucide-react';
 
 // --- HAPTIC UTILITY ---
 const vibrate = (type = 'tap') => {
@@ -72,41 +72,62 @@ const playSound = (type) => {
 const LEVELS = [
   {
     id: 1,
-    title: 'Greetings',
-    subtitle: 'Hello and Names',
+    title: 'The Absolute Basics',
+    subtitle: 'Greetings & Politeness',
     icon: '👋',
     vocab: [
       { id: 1, thai: 'สวัสดี', phonetic: 'sà-wàt-dee', eng: 'Hello', emoji: '👋', tone: 'Low, Low, Mid tone', usage: 'A universal greeting used at any time of day for hello or goodbye.' },
       { id: 2, thai: 'ขอบคุณ', phonetic: 'kòp-kun', eng: 'Thank you', emoji: '🙏', tone: 'Low, Mid tone', usage: 'The standard, polite way to express gratitude.' },
-      { id: 3, thai: 'ผม', phonetic: 'pǒm', eng: 'I (male)', emoji: '👨', tone: 'Rising tone', usage: 'The polite pronoun used by males to refer to themselves.' },
-      { id: 4, thai: 'ฉัน', phonetic: 'chǎn', eng: 'I (female)', emoji: '👩', tone: 'Rising tone', usage: 'The polite pronoun used by females to refer to themselves.' },
-      { id: 5, thai: 'คุณ', phonetic: 'kun', eng: 'You', emoji: '👉', tone: 'Mid tone', usage: 'A polite pronoun for "you", placed before names or used on its own.' },
-      { id: 6, thai: 'ชื่อ', phonetic: 'chûe', eng: 'Name', emoji: '🏷️', tone: 'Falling tone', usage: 'Means "name" but also acts as the verb "to be named".' },
-      { id: 7, thai: 'อะไร', phonetic: 'a-rai', eng: 'What', emoji: '🤷', tone: 'Low, Mid tone', usage: 'The question word for "what", usually placed at the very end of a sentence.' },
+      { id: 3, thai: 'ดี', phonetic: 'dee', eng: 'Good', emoji: '👍', tone: 'Mid tone', usage: 'An adjective meaning good, fine, or well.' },
+      { id: 4, thai: 'มาก', phonetic: 'mâak', eng: 'Very', emoji: '✨', tone: 'Falling tone', usage: 'Placed AFTER an adjective to amplify it (e.g., Good Very).' },
+      { id: 5, thai: 'ใช่', phonetic: 'châi', eng: 'Yes / Correct', emoji: '✅', tone: 'Falling tone', usage: 'Used to confirm something is correct or say "yes".' },
+      { id: 6, thai: 'ไม่', phonetic: 'mâi', eng: 'No / Not', emoji: '❌', tone: 'Falling tone', usage: 'Placed before adjectives or verbs to negate them.' },
+    ],
+    sentences: [
+      { eng: "Hello, thank you.", thai: ["สวัสดี", "ขอบคุณ"] },
+      { eng: "Very good.", thai: ["ดี", "มาก"] },
+      { eng: "Yes, very good.", thai: ["ใช่", "ดี", "มาก"] },
+      { eng: "No, thank you.", thai: ["ไม่", "ขอบคุณ"] },
+      { eng: "Not good.", thai: ["ไม่", "ดี"] },
+      { eng: "Hello, good.", thai: ["สวัสดี", "ดี"] }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Getting to Know You',
+    subtitle: 'Pronouns & Names',
+    icon: '🤝',
+    vocab: [
+      { id: 201, thai: 'ผม', phonetic: 'pǒm', eng: 'I (male)', emoji: '👨', tone: 'Rising tone', usage: 'The polite pronoun used by males to refer to themselves.' },
+      { id: 202, thai: 'ฉัน', phonetic: 'chǎn', eng: 'I (female)', emoji: '👩', tone: 'Rising tone', usage: 'The polite pronoun used by females to refer to themselves.' },
+      { id: 203, thai: 'คุณ', phonetic: 'kun', eng: 'You', emoji: '👉', tone: 'Mid tone', usage: 'A polite pronoun for "you", placed before names or used on its own.' },
+      { id: 204, thai: 'ชื่อ', phonetic: 'chûe', eng: 'Name', emoji: '🏷️', tone: 'Falling tone', usage: 'Means "name" but also acts as the verb "to be named".' },
+      { id: 205, thai: 'อะไร', phonetic: 'a-rai', eng: 'What', emoji: '🤷', tone: 'Low, Mid tone', usage: 'The question word for "what", usually placed at the very end of a sentence.' },
+      { id: 206, thai: 'ยินดี', phonetic: 'yin-dee', eng: 'Glad/Pleased', emoji: '😊', tone: 'Mid, Mid tone', usage: 'Used to say you are glad or pleased (often to meet someone).' },
     ],
     sentences: [
       { eng: "Hello, what is your name?", thai: ["สวัสดี", "คุณ", "ชื่อ", "อะไร"] },
       { eng: "My name is... (Male)", thai: ["ผม", "ชื่อ"] },
       { eng: "My name is... (Female)", thai: ["ฉัน", "ชื่อ"] },
       { eng: "What is my name?", thai: ["ฉัน", "ชื่อ", "อะไร"] },
-      { eng: "I thank you. (Male)", thai: ["ผม", "ขอบคุณ"] },
-      { eng: "I thank you. (Female)", thai: ["ฉัน", "ขอบคุณ"] }
+      { eng: "Glad to meet you.", thai: ["ยินดี"] },
+      { eng: "What name?", thai: ["ชื่อ", "อะไร"] }
     ]
   },
   {
-    id: 2,
+    id: 3,
     title: 'Origins',
     subtitle: 'Countries and Cities',
     icon: '🗺️',
     vocab: [
-      { id: 201, thai: 'มาจาก', phonetic: 'maa jàak', eng: 'Come from', emoji: '🛫', tone: 'Mid, Low tone', usage: 'A compound of "maa" (to come) and "jàak" (from).' },
-      { id: 202, thai: 'ประเทศ', phonetic: 'bprà-têet', eng: 'Country', emoji: '🗺️', tone: 'Low, Falling tone', usage: 'Always placed directly before the name of a country (e.g., bprà-têet tai).' },
-      { id: 203, thai: 'เมือง', phonetic: 'mueang', eng: 'City', emoji: '🏙️', tone: 'Mid tone', usage: 'Means city or town, placed before the city name.' },
-      { id: 204, thai: 'คน', phonetic: 'kon', eng: 'Person', emoji: '🧍', tone: 'Mid tone', usage: 'Placed before a country name to denote nationality (e.g., kon tai = Thai person).' },
-      { id: 205, thai: 'ไทย', phonetic: 'tai', eng: 'Thai', emoji: '🇹🇭', tone: 'Mid tone', usage: 'Means Thai or Thailand. Translates literally to "free".' },
-      { id: 206, thai: 'อังกฤษ', phonetic: 'ang-grìt', eng: 'England', emoji: '🇬🇧', tone: 'Mid, Low tone', usage: 'Refers to England or the English language/people.' },
-      { id: 207, thai: 'ที่ไหน', phonetic: 'tîi-nǎi', eng: 'Where', emoji: '📍', tone: 'Falling, Rising tone', usage: 'The question word for "where", placed at the end of the sentence.' },
-      { id: 208, thai: 'และ', phonetic: 'láe', eng: 'And', emoji: '➕', tone: 'High tone', usage: 'Conjunction used strictly to link nouns together, not verbs.' },
+      { id: 301, thai: 'มาจาก', phonetic: 'maa jàak', eng: 'Come from', emoji: '🛫', tone: 'Mid, Low tone', usage: 'A compound of "maa" (to come) and "jàak" (from).' },
+      { id: 302, thai: 'ประเทศ', phonetic: 'bprà-têet', eng: 'Country', emoji: '🗺️', tone: 'Low, Falling tone', usage: 'Always placed directly before the name of a country (e.g., bprà-têet tai).' },
+      { id: 303, thai: 'เมือง', phonetic: 'mueang', eng: 'City', emoji: '🏙️', tone: 'Mid tone', usage: 'Means city or town, placed before the city name.' },
+      { id: 304, thai: 'คน', phonetic: 'kon', eng: 'Person', emoji: '🧍', tone: 'Mid tone', usage: 'Placed before a country name to denote nationality (e.g., kon tai = Thai person).' },
+      { id: 305, thai: 'ไทย', phonetic: 'tai', eng: 'Thai', emoji: '🇹🇭', tone: 'Mid tone', usage: 'Means Thai or Thailand. Translates literally to "free".' },
+      { id: 306, thai: 'อังกฤษ', phonetic: 'ang-grìt', eng: 'England', emoji: '🇬🇧', tone: 'Mid, Low tone', usage: 'Refers to England or the English language/people.' },
+      { id: 307, thai: 'ที่ไหน', phonetic: 'tîi-nǎi', eng: 'Where', emoji: '📍', tone: 'Falling, Rising tone', usage: 'The question word for "where", placed at the end of the sentence.' },
+      { id: 308, thai: 'และ', phonetic: 'láe', eng: 'And', emoji: '➕', tone: 'High tone', usage: 'Conjunction used strictly to link nouns together, not verbs.' },
     ],
     sentences: [
       { eng: "Where do you come from?", thai: ["คุณ", "มาจาก", "ที่ไหน"] },
@@ -117,17 +138,15 @@ const LEVELS = [
     ]
   },
   {
-    id: 3,
-    title: 'Basics',
-    subtitle: 'To be or not to be',
+    id: 4,
+    title: 'To Be Or Not To Be',
+    subtitle: 'Nouns & Linking',
     icon: '🍲',
     vocab: [
-      { id: 301, thai: 'เป็น', phonetic: 'bpen', eng: 'Is/Am/Are', emoji: '🔗', tone: 'Mid tone', usage: 'Used to link a noun to another noun, e.g., "I am a person".' },
-      { id: 302, thai: 'ไม่', phonetic: 'mâi', eng: 'No / Not', emoji: '❌', tone: 'Falling tone', usage: 'Placed immediately before a verb or adjective to negate it.' },
-      { id: 303, thai: 'ใช่', phonetic: 'châi', eng: 'Yes / Correct', emoji: '✅', tone: 'Falling tone', usage: 'Means correct. Combine with "mâi" (mâi châi) to say "is not".' },
-      { id: 304, thai: 'อาหาร', phonetic: 'aa-hǎan', eng: 'Food', emoji: '🍲', tone: 'Mid, Rising tone', usage: 'Formal word for food, borrowed from ancient Sanskrit.' },
-      { id: 305, thai: 'น้ำ', phonetic: 'náam', eng: 'Water', emoji: '💧', tone: 'High tone', usage: 'Means liquid/water. Placed before other words to name liquids.' },
-      { id: 306, thai: 'อร่อย', phonetic: 'a-ròi', eng: 'Delicious', emoji: '😋', tone: 'Low, Low tone', usage: 'Placed directly after the noun it describes (e.g., food delicious).' },
+      { id: 401, thai: 'เป็น', phonetic: 'bpen', eng: 'Is/Am/Are', emoji: '🔗', tone: 'Mid tone', usage: 'Used to link a noun to another noun, e.g., "I am a person".' },
+      { id: 402, thai: 'อาหาร', phonetic: 'aa-hǎan', eng: 'Food', emoji: '🍲', tone: 'Mid, Rising tone', usage: 'Formal word for food, borrowed from ancient Sanskrit.' },
+      { id: 403, thai: 'น้ำ', phonetic: 'náam', eng: 'Water', emoji: '💧', tone: 'High tone', usage: 'Means liquid/water. Placed before other words to name liquids.' },
+      { id: 404, thai: 'อร่อย', phonetic: 'a-ròi', eng: 'Delicious', emoji: '😋', tone: 'Low, Low tone', usage: 'Placed directly after the noun it describes (e.g., food delicious).' },
     ],
     sentences: [
       { eng: "Yes, I am a Thai person. (Female)", thai: ["ใช่", "ฉัน", "เป็น", "คน", "ไทย"] },
@@ -139,16 +158,16 @@ const LEVELS = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     title: 'Questions',
     subtitle: 'Who, what, where...',
     icon: '❓',
     vocab: [
-      { id: 401, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', tone: 'Mid tone', usage: 'Can act as the subject (Who eats?) or object (Eat who?).' },
-      { id: 402, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', tone: 'Mid, Mid tone', usage: 'The question word for "why", usually placed at the start of a sentence.' },
-      { id: 403, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', tone: 'Low tone', usage: 'Indicates physical location. Literally "To be (somewhere)".' },
-      { id: 404, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', tone: 'Mid tone', usage: 'Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
-      { id: 405, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', tone: 'Falling tone', usage: 'Placed before a noun or verb to indicate preference or favor.' },
+      { id: 501, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', tone: 'Mid tone', usage: 'Can act as the subject (Who eats?) or object (Eat who?).' },
+      { id: 502, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', tone: 'Mid, Mid tone', usage: 'The question word for "why", usually placed at the start of a sentence.' },
+      { id: 503, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', tone: 'Low tone', usage: 'Indicates physical location. Literally "To be (somewhere)".' },
+      { id: 504, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', tone: 'Mid tone', usage: 'Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
+      { id: 505, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', tone: 'Falling tone', usage: 'Placed before a noun or verb to indicate preference or favor.' },
     ],
     sentences: [
       { eng: "Who likes to drink water?", thai: ["ใคร", "ชอบ", "กิน", "น้ำ"] },
@@ -160,19 +179,19 @@ const LEVELS = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     title: 'Nature',
     subtitle: 'Animals & the world',
     icon: '🐘',
     vocab: [
-      { id: 501, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', tone: 'Mid tone', usage: 'Onomatopoeia - it sounds exactly like a meow!' },
-      { id: 502, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', tone: 'Rising tone', usage: 'Informal root word for dog.' },
-      { id: 503, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', tone: 'High tone', usage: 'Root word for elephant.' },
-      { id: 504, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', tone: 'High tone', usage: 'Root word for bird.' },
-      { id: 505, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', tone: 'Mid tone', usage: 'Root word for fish.' },
-      { id: 506, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', tone: 'High, Mid tone', usage: 'Root word for the sea.' },
-      { id: 507, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', tone: 'Low tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
-      { id: 508, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', tone: 'High tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+      { id: 601, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', tone: 'Mid tone', usage: 'Onomatopoeia - it sounds exactly like a meow!' },
+      { id: 602, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', tone: 'Rising tone', usage: 'Informal root word for dog.' },
+      { id: 603, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', tone: 'High tone', usage: 'Root word for elephant.' },
+      { id: 604, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', tone: 'High tone', usage: 'Root word for bird.' },
+      { id: 605, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', tone: 'Mid tone', usage: 'Root word for fish.' },
+      { id: 606, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', tone: 'High, Mid tone', usage: 'Root word for the sea.' },
+      { id: 607, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', tone: 'Low tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+      { id: 608, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', tone: 'High tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
     ],
     sentences: [
       { eng: "A cat is not a dog.", thai: ["แมว", "ไม่", "ใช่", "หมา"] },
@@ -184,18 +203,18 @@ const LEVELS = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     title: 'Numbers & Shop',
     subtitle: 'Counting and buying',
     icon: '🛒',
     vocab: [
-      { id: 601, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', tone: 'Low tone', usage: 'Root number one.' },
-      { id: 602, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', tone: 'Rising tone', usage: 'Root number two.' },
-      { id: 603, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', tone: 'Rising tone', usage: 'Root number three.' },
-      { id: 604, thai: 'ซื้อ', phonetic: 'súe', eng: 'Buy', emoji: '🛍️', tone: 'High tone', usage: 'Means to purchase something.' },
-      { id: 605, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', tone: 'Low tone', usage: 'The official Thai currency.' },
-      { id: 606, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '💸', tone: 'Mid tone', usage: 'Means high cost or pricey.' },
-      { id: 607, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', tone: 'Falling, Low tone', usage: 'The standard question word for asking quantity or price.' },
+      { id: 701, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', tone: 'Low tone', usage: 'Root number one.' },
+      { id: 702, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', tone: 'Rising tone', usage: 'Root number two.' },
+      { id: 703, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', tone: 'Rising tone', usage: 'Root number three.' },
+      { id: 704, thai: 'ซื้อ', phonetic: 'súe', eng: 'Buy', emoji: '🛍️', tone: 'High tone', usage: 'Means to purchase something.' },
+      { id: 705, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', tone: 'Low tone', usage: 'The official Thai currency.' },
+      { id: 706, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '💸', tone: 'Mid tone', usage: 'Means high cost or pricey.' },
+      { id: 707, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', tone: 'Falling, Low tone', usage: 'The standard question word for asking quantity or price.' },
     ],
     sentences: [
       { eng: "How much is the food?", thai: ["อาหาร", "เท่าไหร่"] },
@@ -249,7 +268,7 @@ const JourneyMap = ({ unlockedLevelId, onSelectLevel }) => {
              <div key={lvl.id} className={`relative z-10 w-full flex justify-center mb-12 ${offset}`}>
                 <button 
                   disabled={!isUnlocked}
-                  onClick={() => onSelectLevel(lvl.id)}
+                  onClick={() => { vibrate('tap'); onSelectLevel(lvl.id); }}
                   className={`
                     w-20 h-20 rounded-full flex items-center justify-center text-3xl transition-all duration-300 z-10
                     ${isUnlocked 
@@ -290,7 +309,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
 
       <div className="w-full max-w-sm space-y-3">
         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">Core Track</h3>
-        <button onClick={() => onSelectMode('lesson')} className="w-full bg-slate-900 text-white p-5 rounded-[1.5rem] shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-between group">
+        <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-900 text-white p-5 rounded-[1.5rem] shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-between group">
           <div className="flex items-center space-x-4">
             <div className="bg-white/10 p-3 rounded-full group-hover:scale-110 transition-transform"><GraduationCap size={20} /></div>
             <div className="text-left">
@@ -301,7 +320,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
         </button>
 
         <button 
-          onClick={() => onSelectMode('level-test')} 
+          onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
           className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group border
             ${isCompleted ? 'bg-slate-50 border-slate-200 text-slate-700' : 'bg-white border-slate-200 text-slate-900 shadow-sm'}
           `}
@@ -322,15 +341,15 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
       <div className="w-full max-w-sm pt-4">
         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 mb-3">Practice Games</h3>
         <div className="grid grid-cols-3 gap-3">
-          <button onClick={() => onSelectMode('flashcards')} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
+          <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
             <BookOpen size={22} className="text-slate-400" />
             <span className="font-semibold text-[11px] uppercase tracking-wider">Cards</span>
           </button>
-          <button onClick={() => onSelectMode('quiz')} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
+          <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
             <Brain size={22} className="text-slate-400" />
             <span className="font-semibold text-[11px] uppercase tracking-wider">Quiz</span>
           </button>
-          <button onClick={() => onSelectMode('match')} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
+          <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
             <Grid size={22} className="text-slate-400" />
             <span className="font-semibold text-[11px] uppercase tracking-wider">Match</span>
           </button>
@@ -342,7 +361,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
 
 const Dictionary = () => {
   const [expandedSection, setExpandedSection] = useState(LEVELS[0].id);
-  const toggleSection = (id) => setExpandedSection(prev => prev === id ? null : id);
+  const toggleSection = (id) => { vibrate('tap'); setExpandedSection(prev => prev === id ? null : id); };
 
   return (
     <div className="p-6 pb-8 max-w-md mx-auto">
@@ -395,18 +414,132 @@ const Dictionary = () => {
 // --- STANDALONE GAMES (PRACTICE) ---
 
 const Lesson = ({ vocab, onBack }) => {
+  const [phase, setPhase] = useState('learn'); // 'learn', 'game', 'complete'
   const [step, setStep] = useState(0);
-  const isComplete = step === vocab.length;
-  
-  if (isComplete) {
+
+  // Mini-Game State
+  const [gameScore, setGameScore] = useState(0);
+  const [currentG, setCurrentG] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+
+  const generateGameQuestion = useCallback(() => {
+    const word = vocab[Math.floor(Math.random() * vocab.length)];
+    let isMatch = Math.random() > 0.5;
+    let displayEng = word.eng;
+    
+    if (!isMatch) {
+       const others = vocab.filter(v => v.id !== word.id);
+       if (others.length > 0) {
+         displayEng = others[Math.floor(Math.random() * others.length)].eng;
+       } else {
+         isMatch = true; 
+       }
+    }
+    setCurrentG({ word, displayEng, isMatch });
+  }, [vocab]);
+
+  useEffect(() => {
+    if (phase === 'game' && !currentG) generateGameQuestion();
+  }, [phase, currentG, generateGameQuestion]);
+
+  const handleGameGuess = (guessTrue) => {
+    if (feedback) return;
+    if (guessTrue === currentG.isMatch) {
+      setFeedback('correct');
+      playSound('correct');
+      setTimeout(() => {
+         setFeedback(null);
+         const newScore = gameScore + 1;
+         setGameScore(newScore);
+         if (newScore >= 5) { // 5 to win
+            playSound('win');
+            setPhase('complete');
+         } else {
+            generateGameQuestion();
+         }
+      }, 600);
+    } else {
+      setFeedback('incorrect');
+      playSound('incorrect');
+      setTimeout(() => {
+         setFeedback(null);
+         generateGameQuestion(); 
+      }, 800);
+    }
+  };
+
+  const handleNextLearn = () => {
+    vibrate('tap');
+    if (step < vocab.length - 1) {
+      setStep(s => s + 1);
+    } else {
+      setPhase('game');
+    }
+  };
+
+  if (phase === 'complete') {
     return (
-      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-50">
+      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-50 animation-fade-in">
         <Sparkles size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Lesson Complete</h2>
-        <p className="text-slate-500 mb-10">You've reviewed all the words. Time to practice!</p>
-        <button onClick={onBack} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
+        <p className="text-slate-500 mb-10">You've reviewed all the words and passed the speed check!</p>
+        <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
           Back to Study Hub
         </button>
+      </div>
+    );
+  }
+
+  if (phase === 'game' && currentG) {
+    let containerClass = "bg-white border-slate-100";
+    if (feedback === 'correct') containerClass = "bg-green-50 border-green-200";
+    if (feedback === 'incorrect') containerClass = "bg-red-50 border-red-200 animate-pulse";
+
+    return (
+      <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
+        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
+          <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
+          <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
+            {[0,1,2,3,4].map((i) => (
+               <div key={i} className={`h-1.5 flex-1 max-w-[20px] rounded-full transition-colors ${i < gameScore ? 'bg-green-500' : 'bg-slate-200'}`} />
+            ))}
+          </div>
+          <Zap size={20} className="text-amber-500 fill-amber-500" />
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto">
+          <div className="mb-4 text-center">
+             <h3 className="text-xl font-light text-slate-800">Speed Check</h3>
+             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Does this match?</p>
+          </div>
+
+          <div className={`w-full rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 p-8 flex flex-col items-center text-center transition-colors duration-300 ${containerClass}`}>
+            <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentG.word.thai}</h2>
+            <p className="text-lg text-slate-500 font-medium mb-6">"{currentG.word.phonetic}"</p>
+            
+            <div className="w-12 h-px bg-slate-200 mb-6"></div>
+            
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Means</p>
+            <h3 className="text-3xl font-light text-slate-800">{currentG.displayEng}</h3>
+          </div>
+
+          <div className="mt-8 w-full flex gap-4">
+            <button 
+              onClick={() => handleGameGuess(false)} 
+              disabled={feedback !== null}
+              className="flex-1 bg-white text-red-500 border border-slate-200 p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
+            >
+              <XCircle size={20} /> False
+            </button>
+            <button 
+              onClick={() => handleGameGuess(true)} 
+              disabled={feedback !== null}
+              className="flex-1 bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
+            >
+              <CheckCircle2 size={20} /> True
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -414,9 +547,9 @@ const Lesson = ({ vocab, onBack }) => {
   const word = vocab[step];
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
-        <button onClick={onBack} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
+        <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
           {vocab.map((_, i) => (
              <div key={i} className={`h-1 flex-1 max-w-[20px] rounded-full transition-colors ${i <= step ? 'bg-slate-800' : 'bg-slate-200'}`} />
@@ -457,7 +590,7 @@ const Lesson = ({ vocab, onBack }) => {
         </div>
 
         <button 
-          onClick={() => { vibrate('tap'); setStep(s => s + 1); }} 
+          onClick={handleNextLearn} 
           className="mt-8 w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2"
         >
           Got it <ArrowRight size={20} className="opacity-50" />
@@ -478,7 +611,7 @@ const Flashcards = ({ vocab, onBack }) => {
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
-        <button onClick={onBack} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
+        <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <span className="font-semibold text-slate-600 text-sm">Card {currentIndex + 1} / {vocab.length}</span>
         <div className="w-10"></div>
       </div>
@@ -533,6 +666,7 @@ const Quiz = ({ vocab, onBack }) => {
 
   const handleAnswer = (option) => {
     if (selectedAnswer) return;
+    vibrate('tap');
     setSelectedAnswer(option);
     const isCorrect = option.id === questions[currentQIndex].target.id;
     if (isCorrect) { setScore(s => s + 1); playSound('correct'); } else playSound('incorrect');
@@ -550,7 +684,7 @@ const Quiz = ({ vocab, onBack }) => {
         <Trophy size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">Quiz Complete</h2>
         <p className="text-slate-500 mb-10">Score: {score} / {questions.length}</p>
-        <button onClick={onBack} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">Back to Study Hub</button>
+        <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">Back to Study Hub</button>
       </div>
     );
   }
@@ -560,7 +694,7 @@ const Quiz = ({ vocab, onBack }) => {
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
-         <button onClick={onBack} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
+         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
           {questions.map((_, i) => <div key={i} className={`h-1 flex-1 max-w-[15px] rounded-full ${i < currentQIndex ? 'bg-slate-800' : i === currentQIndex ? 'bg-slate-400' : 'bg-slate-200'}`} />)}
         </div>
@@ -640,7 +774,7 @@ const MatchGame = ({ vocab, onBack }) => {
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100">
-         <button onClick={onBack} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
+         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="font-semibold text-slate-600 text-sm">Moves: {moves}</div>
         <div className="w-10"></div>
       </div>
@@ -650,7 +784,7 @@ const MatchGame = ({ vocab, onBack }) => {
            <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm">
              <Trophy size={50} className="mx-auto text-slate-800 mb-4" />
              <h2 className="text-2xl font-light text-slate-900 mb-6">Completed in {moves} moves</h2>
-             <button onClick={onBack} className="w-full bg-slate-900 text-white py-4 rounded-[1.5rem] font-semibold active:scale-95">Done</button>
+             <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full bg-slate-900 text-white py-4 rounded-[1.5rem] font-semibold active:scale-95">Done</button>
            </div>
         ) : (
           <div className="grid grid-cols-3 gap-3 w-full max-w-md perspective-1000">
@@ -681,7 +815,6 @@ const TestQuiz = ({ vocab, onIncorrect, onComplete }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   useEffect(() => {
-    // Generates 4 questions for the quiz phase
     const generated = shuffleArray(vocab).slice(0, 4).map(target => ({
       target,
       options: shuffleArray([target, ...shuffleArray(ALL_VOCAB.filter(w => w.id !== target.id)).slice(0, 3)])
@@ -691,6 +824,7 @@ const TestQuiz = ({ vocab, onIncorrect, onComplete }) => {
 
   const handleAnswer = (option) => {
     if (selectedAnswer) return;
+    vibrate('tap');
     setSelectedAnswer(option);
     
     const isCorrect = option.id === questions[currentQIndex].target.id;
@@ -701,12 +835,11 @@ const TestQuiz = ({ vocab, onIncorrect, onComplete }) => {
           setCurrentQIndex(prev => prev + 1);
           setSelectedAnswer(null);
         } else {
-          onComplete(); // Advance to next test phase
+          onComplete(); 
         }
       }, 1000);
     } else {
-      onIncorrect(); // Triggers life loss in parent
-      // Stay on the question but clear it quickly so they can try again if they have lives
+      onIncorrect(); 
       setTimeout(() => setSelectedAnswer(null), 1000);
     }
   };
@@ -754,7 +887,6 @@ const TestMatch = ({ vocab, onIncorrect, onComplete }) => {
   const [errorPair, setErrorPair] = useState(false);
 
   useEffect(() => {
-    // 4 Pairs for Test Matching
     const pool = shuffleArray(vocab).slice(0, 4);
     setLeftWords(shuffleArray([...pool]));
     setRightWords(shuffleArray([...pool]));
@@ -863,6 +995,7 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
   };
 
   const checkAnswer = () => {
+    vibrate('tap');
     const isMatch = selectedWords.join('') === expectedThai.join('');
     if (isMatch) {
       setStatus('correct');
@@ -948,10 +1081,10 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
 }
 
 const LevelTestManager = ({ level, onComplete, onBack }) => {
-  const [phase, setPhase] = useState(0); // 0=quiz, 1=match, 2=sentence
+  const [phase, setPhase] = useState(0); 
   const [lives, setLives] = useState(3);
   const [failed, setFailed] = useState(false);
-  const [attemptCount, setAttemptCount] = useState(0); // Used to remount components and reset internal state
+  const [attemptCount, setAttemptCount] = useState(0); 
 
   const handleIncorrect = useCallback(() => {
     if (lives > 1) {
@@ -964,6 +1097,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
   }, [lives]);
 
   const restartTest = () => {
+    vibrate('tap');
     setLives(3);
     setPhase(0);
     setFailed(false);
@@ -985,7 +1119,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
            <button onClick={restartTest} className="w-full bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
              Try Again
            </button>
-           <button onClick={onBack} className="w-full bg-white text-slate-700 border border-slate-200 font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
+           <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full bg-white text-slate-700 border border-slate-200 font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
              Study Hub
            </button>
         </div>
@@ -996,7 +1130,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
   return (
     <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shadow-sm z-10">
-        <button onClick={onBack} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
+        <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
           {[0, 1, 2].map((p) => (
              <div key={p} className={`h-1.5 flex-1 max-w-[30px] rounded-full transition-colors ${p < phase ? 'bg-green-500' : p === phase ? 'bg-slate-800' : 'bg-slate-200'}`} />
@@ -1072,7 +1206,7 @@ export default function App() {
                  const Icon = tab.icon;
                  const isActive = currentTab === tab.id;
                  return (
-                   <button key={tab.id} onClick={() => setCurrentTab(tab.id)} className={`flex flex-col items-center justify-center space-y-1.5 transition-colors ${isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>
+                   <button key={tab.id} onClick={() => { vibrate('tap'); setCurrentTab(tab.id); }} className={`flex flex-col items-center justify-center space-y-1.5 transition-colors ${isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>
                      <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-slate-100 scale-110' : 'bg-transparent'}`}>
                        <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                      </div>
