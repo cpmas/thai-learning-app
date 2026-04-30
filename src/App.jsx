@@ -304,6 +304,11 @@ const customStyles = `
   .rotate-y-180 { transform: rotateY(180deg); }
   .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  @keyframes slideInNext { from { transform: translateX(100vw); } to { transform: translateX(0); } }
+  @keyframes slideInPrev { from { transform: translateX(-100vw); } to { transform: translateX(0); } }
+  .animate-in-next { animation: slideInNext 0.25s ease-out forwards; }
+  .animate-in-prev { animation: slideInPrev 0.25s ease-out forwards; }
 `;
 
 const getPhonetic = (thaiWord) => {
@@ -364,62 +369,65 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
   const isCompleted = level.id < unlockedLevelId;
 
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-6 p-6 pt-10 animation-fade-in">
-      <div className="text-center space-y-2 mb-2 bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 w-full max-w-sm flex flex-col items-center">
-        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-3xl mb-2">{level.icon}</div>
-        <h2 className="text-2xl font-light tracking-tight text-slate-800">{level.title}</h2>
-        <p className="text-slate-500 font-medium text-sm">
-          {level.vocab.length} Words • Level {level.id}
-        </p>
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-full p-6 animation-fade-in pb-10">
+      <div className="w-full max-w-sm flex flex-col gap-6 my-auto">
+        
+        {/* Header */}
+        <div className="flex flex-col items-center text-center w-full mb-2">
+          <div className="w-20 h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-4xl border border-slate-100 mb-4">
+            {level.icon}
+          </div>
+          <h2 className="text-3xl font-bold text-slate-800 tracking-tight mb-1">{level.title}</h2>
+          <p className="text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
+        </div>
 
-      <div className="w-full max-w-sm space-y-3">
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">Core Track</h3>
-        <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-900 text-white p-5 rounded-[1.5rem] shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-between group">
-          <div className="flex items-center space-x-4">
-            <div className="bg-white/10 p-3 rounded-full group-hover:scale-110 transition-transform"><GraduationCap size={20} /></div>
+        {/* Step 1: Interactive Lesson */}
+        <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-blue-50 border border-blue-100 p-5 rounded-[1.5rem] shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-between group">
+          <div className="flex items-center gap-4">
+            <div className="bg-white text-blue-500 p-3 rounded-2xl shadow-sm group-hover:scale-110 transition-transform"><GraduationCap size={24} /></div>
             <div className="text-left">
-              <span className="block text-lg font-semibold">Interactive Lesson</span>
+              <span className="block text-lg font-bold text-blue-950">Interactive Lesson</span>
+              <span className="block text-xs font-medium text-blue-700/70 mt-0.5">Learn words & tones</span>
             </div>
           </div>
-          <ArrowRight className="text-white/50" />
+          <ArrowRight size={20} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
         </button>
 
-        <button 
-          onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
-          className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group border
-            ${isCompleted ? 'bg-slate-50 border-slate-200 text-slate-700' : 'bg-white border-slate-200 text-slate-900 shadow-sm'}
-          `}
-        >
-          <div className="flex items-center space-x-4">
-            <div className={`p-3 rounded-full transition-transform ${isCompleted ? 'bg-slate-200 text-slate-500' : 'bg-slate-100 text-slate-900 group-hover:scale-110'}`}>
-              {isCompleted ? <CheckCircle2 size={20} /> : <Unlock size={20} />}
-            </div>
-            <div className="text-left">
-              <span className="block text-lg font-semibold">Level Test</span>
-              <span className="block text-xs font-medium text-slate-500">3-Stage Challenge</span>
-            </div>
-          </div>
-          <ArrowRight className="text-slate-300" />
-        </button>
-      </div>
-
-      <div className="w-full max-w-sm pt-4">
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 mb-3">Practice Games</h3>
+        {/* Step 2: Practice Minigames */}
         <div className="grid grid-cols-3 gap-3">
-          <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
-            <BookOpen size={22} className="text-slate-400" />
-            <span className="font-semibold text-[11px] uppercase tracking-wider">Cards</span>
+          <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-amber-50 border border-amber-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-amber-100 hover:shadow-md">
+            <div className="bg-white p-2 rounded-xl shadow-sm"><BookOpen size={22} className="text-amber-500" /></div>
+            <span className="font-bold text-[11px] text-amber-700 uppercase tracking-widest mt-1">Cards</span>
           </button>
-          <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
-            <Brain size={22} className="text-slate-400" />
-            <span className="font-semibold text-[11px] uppercase tracking-wider">Quiz</span>
+          <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="bg-rose-50 border border-rose-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-rose-100 hover:shadow-md">
+            <div className="bg-white p-2 rounded-xl shadow-sm"><Brain size={22} className="text-rose-500" /></div>
+            <span className="font-bold text-[11px] text-rose-700 uppercase tracking-widest mt-1">Quiz</span>
           </button>
-          <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-white text-slate-700 border border-slate-100 p-4 rounded-[1.2rem] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all active:scale-95 flex flex-col items-center justify-center gap-3 hover:border-slate-300">
-            <Grid size={22} className="text-slate-400" />
-            <span className="font-semibold text-[11px] uppercase tracking-wider">Match</span>
+          <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-emerald-50 border border-emerald-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-emerald-100 hover:shadow-md">
+            <div className="bg-white p-2 rounded-xl shadow-sm"><Grid size={22} className="text-emerald-500" /></div>
+            <span className="font-bold text-[11px] text-emerald-700 uppercase tracking-widest mt-1">Match</span>
           </button>
         </div>
+
+        {/* Step 3: Level Test */}
+        <button 
+          onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
+          className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group mt-2
+            ${isCompleted ? 'bg-slate-100 border border-slate-200 text-slate-700' : 'bg-indigo-600 border border-indigo-700 text-white shadow-md hover:bg-indigo-700 hover:shadow-lg'}
+          `}
+        >
+          <div className="flex items-center gap-4">
+            <div className={`p-3 rounded-2xl transition-transform group-hover:scale-110 ${isCompleted ? 'bg-white text-slate-500 shadow-sm' : 'bg-indigo-500 text-white shadow-inner'}`}>
+              {isCompleted ? <CheckCircle2 size={24} /> : <Unlock size={24} />}
+            </div>
+            <div className="text-left">
+              <span className="block text-lg font-bold">Level Test</span>
+              <span className={`block text-xs font-medium mt-0.5 ${isCompleted ? 'text-slate-500' : 'text-indigo-200'}`}>Pass to unlock next level</span>
+            </div>
+          </div>
+          <ArrowRight size={20} className={isCompleted ? "text-slate-400" : "text-indigo-300"} />
+        </button>
+
       </div>
     </div>
   );
@@ -488,10 +496,10 @@ const Lesson = ({ vocab, onBack }) => {
   const [feedback, setFeedback] = useState(null);
 
   const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [exitDir, setExitDir] = useState(0);
   const [touchStartPos, setTouchStartPos] = useState(null);
+  const [animClass, setAnimClass] = useState('');
 
   const generateGameQuestion = useCallback(() => {
     const word = vocab[Math.floor(Math.random() * vocab.length)];
@@ -554,42 +562,54 @@ const Lesson = ({ vocab, onBack }) => {
   };
 
   const onTouchStart = (e) => {
-    setTouchStartPos({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
+    setTouchStartPos(e.targetTouches[0].clientX);
     setIsDragging(true);
   };
 
   const onTouchMove = (e) => {
-    if (!isDragging || !touchStartPos) return;
-    setPanX(e.targetTouches[0].clientX - touchStartPos.x);
-    setPanY(e.targetTouches[0].clientY - touchStartPos.y);
+    if (!isDragging || touchStartPos === null) return;
+    setPanX(e.targetTouches[0].clientX - touchStartPos);
+  };
+
+  const triggerNext = () => {
+    if (step >= vocab.length - 1) {
+      setPhase('game');
+      return;
+    }
+    vibrate('tap');
+    setExitDir(-1);
+    setTimeout(() => { 
+      handleNextLearn(); 
+      setExitDir(0); 
+      setPanX(0); 
+      setAnimClass('animate-in-next');
+      setTimeout(() => setAnimClass(''), 300);
+    }, 200);
+  };
+
+  const triggerPrev = () => {
+    if (step <= 0) return;
+    vibrate('tap');
+    setExitDir(1);
+    setTimeout(() => { 
+      handlePrevLearn(); 
+      setExitDir(0); 
+      setPanX(0); 
+      setAnimClass('animate-in-prev');
+      setTimeout(() => setAnimClass(''), 300);
+    }, 200);
   };
 
   const onTouchEnd = () => {
     setIsDragging(false);
-    if (panX < -100) {
-      setExitDir(-1);
-      vibrate('tap');
-      setTimeout(() => { handleNextLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
-    } else if (panX > 100 && step > 0) {
-      setExitDir(1);
-      vibrate('tap');
-      setTimeout(() => { handlePrevLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
+    if (panX < -70) {
+      triggerNext();
+    } else if (panX > 70 && step > 0) {
+      triggerPrev();
     } else {
-      setPanX(0); setPanY(0);
+      setPanX(0);
     }
     setTouchStartPos(null);
-  };
-
-  const triggerNext = () => {
-    vibrate('tap');
-    setExitDir(-1);
-    setTimeout(() => { handleNextLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
-  };
-
-  const triggerPrev = () => {
-    vibrate('tap');
-    setExitDir(1);
-    setTimeout(() => { handlePrevLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
   };
 
   if (phase === 'complete') {
@@ -662,13 +682,13 @@ const Lesson = ({ vocab, onBack }) => {
   const word = vocab[step];
   const cardStyle = {
     transform: exitDir !== 0 
-      ? `translate(${exitDir * 150}vw, ${panY}px) rotate(${exitDir * 30}deg)`
-      : `translate(${panX}px, ${panY}px) rotate(${panX * 0.05}deg)`,
-    transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+      ? `translateX(${exitDir * 150}vw)`
+      : `translateX(${panX}px)`,
+    transition: isDragging ? 'none' : 'transform 0.2s ease-out'
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in overflow-hidden">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 overflow-hidden">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
@@ -684,7 +704,7 @@ const Lesson = ({ vocab, onBack }) => {
         <div 
           onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
           style={cardStyle}
-          className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 p-8 flex flex-col items-center text-center touch-none z-10"
+          className={`w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 p-8 flex flex-col items-center text-center touch-none z-10 ${animClass}`}
         >
           <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
           
@@ -721,7 +741,7 @@ const Lesson = ({ vocab, onBack }) => {
             <span className="text-[10px] uppercase font-bold mt-1 tracking-widest">Back</span>
           </button>
           
-          <button onClick={triggerNext} className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold shadow-lg active:scale-95 transition-transform flex items-center gap-2">
+          <button onClick={triggerNext} className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold shadow-[0_4px_15px_rgba(0,0,0,0.1)] active:scale-95 transition-transform flex items-center gap-2">
             {step < vocab.length - 1 ? 'Next' : 'Take Test'} <ArrowRight size={20} />
           </button>
         </div>
