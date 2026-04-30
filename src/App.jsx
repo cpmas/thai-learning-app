@@ -540,12 +540,6 @@ const Lesson = ({ vocab, onBack }) => {
   const [currentG, setCurrentG] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
-  const [panX, setPanX] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [exitDir, setExitDir] = useState(0);
-  const [touchStartPos, setTouchStartPos] = useState(null);
-  const [animClass, setAnimClass] = useState('');
-
   const generateGameQuestion = useCallback(() => {
     const word = vocab[Math.floor(Math.random() * vocab.length)];
     let isMatch = Math.random() > 0.5;
@@ -593,6 +587,7 @@ const Lesson = ({ vocab, onBack }) => {
   };
 
   const handleNextLearn = () => {
+    vibrate('tap');
     if (step < vocab.length - 1) {
       setStep(s => s + 1);
     } else {
@@ -601,60 +596,10 @@ const Lesson = ({ vocab, onBack }) => {
   };
 
   const handlePrevLearn = () => {
+    vibrate('tap');
     if (step > 0) {
       setStep(s => s - 1);
     }
-  };
-
-  const onTouchStart = (e) => {
-    setTouchStartPos(e.targetTouches[0].clientX);
-    setIsDragging(true);
-  };
-
-  const onTouchMove = (e) => {
-    if (!isDragging || touchStartPos === null) return;
-    setPanX(e.targetTouches[0].clientX - touchStartPos);
-  };
-
-  const triggerNext = () => {
-    if (step >= vocab.length - 1) {
-      setPhase('game');
-      return;
-    }
-    vibrate('tap');
-    setExitDir(-1);
-    setTimeout(() => { 
-      handleNextLearn(); 
-      setExitDir(0); 
-      setPanX(0); 
-      setAnimClass('animate-in-next');
-      setTimeout(() => setAnimClass(''), 300);
-    }, 200);
-  };
-
-  const triggerPrev = () => {
-    if (step <= 0) return;
-    vibrate('tap');
-    setExitDir(1);
-    setTimeout(() => { 
-      handlePrevLearn(); 
-      setExitDir(0); 
-      setPanX(0); 
-      setAnimClass('animate-in-prev');
-      setTimeout(() => setAnimClass(''), 300);
-    }, 200);
-  };
-
-  const onTouchEnd = () => {
-    setIsDragging(false);
-    if (panX < -70) {
-      triggerNext();
-    } else if (panX > 70 && step > 0) {
-      triggerPrev();
-    } else {
-      setPanX(0);
-    }
-    setTouchStartPos(null);
   };
 
   if (phase === 'complete') {
@@ -725,15 +670,9 @@ const Lesson = ({ vocab, onBack }) => {
   }
 
   const word = vocab[step];
-  const cardStyle = {
-    transform: exitDir !== 0 
-      ? `translateX(${exitDir * 150}vw)`
-      : `translateX(${panX}px)`,
-    transition: isDragging ? 'none' : 'transform 0.2s ease-out'
-  };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 overflow-hidden">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in overflow-hidden">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
@@ -744,13 +683,9 @@ const Lesson = ({ vocab, onBack }) => {
         <span className="font-semibold text-slate-500 text-sm">{step + 1}/{vocab.length}</span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto relative overflow-hidden">
+      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-28 sm:pb-8 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
         
-        <div 
-          onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
-          style={cardStyle}
-          className={`w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 p-8 flex flex-col items-center text-center touch-none z-10 ${animClass}`}
-        >
+        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center z-10 shrink-0 my-auto">
           <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
           
           <h2 className="text-5xl font-bold text-slate-900 mb-3">{word.thai}</h2>
@@ -780,13 +715,19 @@ const Lesson = ({ vocab, onBack }) => {
           </div>
         </div>
 
-        <div className="w-full flex justify-between items-center mt-8 px-2 z-0 shrink-0">
-          <button onClick={triggerPrev} disabled={step === 0} className={`p-3 flex flex-col items-center transition-opacity ${step === 0 ? 'opacity-30' : 'text-slate-500 hover:text-slate-800 active:scale-95'}`}>
-            <ArrowLeft size={24} />
-            <span className="text-[10px] uppercase font-bold mt-1 tracking-widest">Back</span>
+        <div className="w-full flex justify-between items-center mt-6 pt-2 shrink-0">
+          <button 
+            onClick={handlePrevLearn} 
+            disabled={step === 0} 
+            className={`px-5 py-4 rounded-[1.25rem] font-bold flex items-center gap-2 transition-all ${step === 0 ? 'opacity-30' : 'bg-white text-slate-700 shadow-sm border border-slate-200 active:scale-95'}`}
+          >
+            <ArrowLeft size={20} /> Back
           </button>
           
-          <button onClick={triggerNext} className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold shadow-[0_4px_15px_rgba(0,0,0,0.1)] active:scale-95 transition-transform flex items-center gap-2">
+          <button 
+            onClick={handleNextLearn} 
+            className="px-6 py-4 bg-slate-900 text-white rounded-[1.25rem] font-bold shadow-lg active:scale-95 transition-transform flex items-center gap-2"
+          >
             {step < vocab.length - 1 ? 'Next' : 'Take Test'} <ArrowRight size={20} />
           </button>
         </div>
@@ -975,7 +916,7 @@ const MatchGame = ({ vocab, onBack }) => {
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 overflow-y-auto hide-scrollbar">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 pb-28 sm:pb-8 overflow-hidden min-h-0 w-full">
         {matched === 6 ? (
            <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm shrink-0">
              <Trophy size={50} className="mx-auto text-slate-800 mb-4" />
@@ -983,15 +924,15 @@ const MatchGame = ({ vocab, onBack }) => {
              <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full bg-slate-900 text-white py-4 rounded-[1.5rem] font-semibold active:scale-95">Done</button>
            </div>
         ) : (
-          <div className="grid grid-cols-3 gap-3 w-full max-w-md perspective-1000 shrink-0 mb-8 sm:mb-0">
+          <div className="grid grid-cols-3 grid-rows-4 gap-2.5 w-full max-w-sm h-full max-h-[70vh] perspective-1000 shrink-0 my-auto">
             {cards.map((c, i) => (
-              <div key={c.id} onClick={() => handleCardClick(i)} className={`relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 transform-style-3d ${c.flip || c.match ? 'rotate-y-180' : ''}`}>
+              <div key={c.id} onClick={() => handleCardClick(i)} className={`relative w-full h-full cursor-pointer transition-transform duration-500 transform-style-3d ${c.flip || c.match ? 'rotate-y-180' : ''}`}>
                 <div className={`absolute inset-0 w-full h-full bg-slate-800 rounded-[1rem] backface-hidden flex items-center justify-center ${c.match ? 'opacity-0' : 'opacity-100'}`}>
                   <span className="text-white/20 text-2xl font-serif">🇹🇭</span>
                 </div>
-                <div className={`absolute inset-0 w-full h-full rounded-[1rem] shadow-sm backface-hidden rotate-y-180 flex flex-col items-center justify-center p-2 text-center border border-slate-200 ${c.match ? 'bg-slate-100 opacity-50' : 'bg-white'}`}>
-                  <span className={`font-bold ${c.type === 't' ? 'text-xl' : 'text-lg'} text-slate-800 leading-tight mb-1`}>{c.text}</span>
-                  <span className="text-[10px] text-slate-400">{c.sub}</span>
+                <div className={`absolute inset-0 w-full h-full rounded-[1rem] shadow-sm backface-hidden rotate-y-180 flex flex-col items-center justify-center p-2 text-center border border-slate-200 overflow-hidden ${c.match ? 'bg-slate-100 opacity-50' : 'bg-white'}`}>
+                  <span className={`font-bold ${c.type === 't' ? 'text-lg sm:text-xl' : 'text-sm sm:text-base'} text-slate-800 leading-tight mb-1`}>{c.text}</span>
+                  <span className="text-[10px] text-slate-400 leading-none">{c.sub}</span>
                 </div>
               </div>
             ))}
