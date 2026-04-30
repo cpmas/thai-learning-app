@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Play, BookOpen, Brain, ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, XCircle, Trophy, Map as MapIcon, BookMarked, GraduationCap, Sparkles, ChevronDown, ChevronUp, Lock, Unlock, Grid, Heart, AlertCircle, Zap } from 'lucide-react';
+import { Play, BookOpen, Brain, ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, XCircle, Trophy, Map as MapIcon, BookMarked, GraduationCap, Sparkles, ChevronDown, ChevronUp, Lock, Unlock, Grid, Heart, AlertCircle, Zap, Timer } from 'lucide-react';
 
 // --- HAPTIC UTILITY ---
 const vibrate = (type = 'tap') => {
@@ -370,63 +370,78 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-full p-6 animation-fade-in pb-10">
-      <div className="w-full max-w-sm flex flex-col gap-6 my-auto">
+      <div className="w-full max-w-sm flex flex-col gap-5 my-auto">
         
         {/* Header */}
         <div className="flex flex-col items-center text-center w-full mb-2">
-          <div className="w-20 h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-4xl border border-slate-100 mb-4">
+          <div className="w-20 h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-4xl border border-slate-200 mb-4">
             {level.icon}
           </div>
           <h2 className="text-3xl font-bold text-slate-800 tracking-tight mb-1">{level.title}</h2>
           <p className="text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
         </div>
 
-        {/* Step 1: Interactive Lesson */}
-        <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-blue-50 border border-blue-100 p-5 rounded-[1.5rem] shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-between group">
-          <div className="flex items-center gap-4">
-            <div className="bg-white text-blue-500 p-3 rounded-2xl shadow-sm group-hover:scale-110 transition-transform"><GraduationCap size={24} /></div>
-            <div className="text-left">
-              <span className="block text-lg font-bold text-blue-950">Interactive Lesson</span>
-              <span className="block text-xs font-medium text-blue-700/70 mt-0.5">Learn words & tones</span>
-            </div>
-          </div>
-          <ArrowRight size={20} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
-        </button>
+        <div className="space-y-3">
+           <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2">Study Plan</h3>
+           
+           {/* Step 1: Interactive Lesson */}
+           <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-800 text-white p-5 rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
+             <div className="flex items-center gap-4">
+               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><GraduationCap size={24} /></div>
+               <div className="text-left">
+                 <span className="block text-lg font-bold">Interactive Lesson</span>
+                 <span className="block text-xs font-medium text-slate-300 mt-0.5">Learn words & tones</span>
+               </div>
+             </div>
+             <ArrowRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+           </button>
 
-        {/* Step 2: Practice Minigames */}
-        <div className="grid grid-cols-3 gap-3">
-          <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-amber-50 border border-amber-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-amber-100 hover:shadow-md">
-            <div className="bg-white p-2 rounded-xl shadow-sm"><BookOpen size={22} className="text-amber-500" /></div>
-            <span className="font-bold text-[11px] text-amber-700 uppercase tracking-widest mt-1">Cards</span>
-          </button>
-          <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="bg-rose-50 border border-rose-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-rose-100 hover:shadow-md">
-            <div className="bg-white p-2 rounded-xl shadow-sm"><Brain size={22} className="text-rose-500" /></div>
-            <span className="font-bold text-[11px] text-rose-700 uppercase tracking-widest mt-1">Quiz</span>
-          </button>
-          <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-emerald-50 border border-emerald-100 p-4 rounded-[1.25rem] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-emerald-100 hover:shadow-md">
-            <div className="bg-white p-2 rounded-xl shadow-sm"><Grid size={22} className="text-emerald-500" /></div>
-            <span className="font-bold text-[11px] text-emerald-700 uppercase tracking-widest mt-1">Match</span>
-          </button>
+           {/* Step 2: Quiz (Full Width) */}
+           <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="w-full bg-slate-700 text-white p-5 rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
+             <div className="flex items-center gap-4">
+               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><Brain size={24} /></div>
+               <div className="text-left">
+                 <span className="block text-lg font-bold">Quick Quiz</span>
+                 <span className="block text-xs font-medium text-slate-300 mt-0.5">Test your memory</span>
+               </div>
+             </div>
+             <ArrowRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+           </button>
+
+           {/* Step 3: Practice Minigames (Cards & Match) */}
+           <div className="grid grid-cols-2 gap-3">
+             <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-slate-600 text-white p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-slate-500">
+               <BookOpen size={24} className="text-white/90" />
+               <span className="font-bold text-[11px] uppercase tracking-widest mt-1">Cards</span>
+             </button>
+             <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-slate-600 text-white p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-slate-500">
+               <Grid size={24} className="text-white/90" />
+               <span className="font-bold text-[11px] uppercase tracking-widest mt-1">Match</span>
+             </button>
+           </div>
         </div>
 
-        {/* Step 3: Level Test */}
-        <button 
-          onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
-          className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group mt-2
-            ${isCompleted ? 'bg-slate-100 border border-slate-200 text-slate-700' : 'bg-indigo-600 border border-indigo-700 text-white shadow-md hover:bg-indigo-700 hover:shadow-lg'}
-          `}
-        >
-          <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-2xl transition-transform group-hover:scale-110 ${isCompleted ? 'bg-white text-slate-500 shadow-sm' : 'bg-indigo-500 text-white shadow-inner'}`}>
-              {isCompleted ? <CheckCircle2 size={24} /> : <Unlock size={24} />}
-            </div>
-            <div className="text-left">
-              <span className="block text-lg font-bold">Level Test</span>
-              <span className={`block text-xs font-medium mt-0.5 ${isCompleted ? 'text-slate-500' : 'text-indigo-200'}`}>Pass to unlock next level</span>
-            </div>
-          </div>
-          <ArrowRight size={20} className={isCompleted ? "text-slate-400" : "text-indigo-300"} />
-        </button>
+        {/* Step 4: Level Test */}
+        <div className="pt-2">
+           <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-3">Final Challenge</h3>
+           <button 
+             onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
+             className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group
+               ${isCompleted ? 'bg-slate-200 text-slate-700' : 'bg-slate-900 text-white shadow-lg hover:bg-black'}
+             `}
+           >
+             <div className="flex items-center gap-4">
+               <div className={`p-3 rounded-2xl transition-transform group-hover:scale-110 ${isCompleted ? 'bg-white shadow-sm' : 'bg-white/10'}`}>
+                 {isCompleted ? <CheckCircle2 size={24} className="text-slate-600"/> : <Unlock size={24} />}
+               </div>
+               <div className="text-left">
+                 <span className="block text-lg font-bold">Level Test</span>
+                 <span className={`block text-xs font-medium mt-0.5 ${isCompleted ? 'text-slate-500' : 'text-slate-300'}`}>Pass to unlock next level</span>
+               </div>
+             </div>
+             <ArrowRight size={20} className={isCompleted ? "text-slate-400" : "text-slate-400 group-hover:text-white"} />
+           </button>
+        </div>
 
       </div>
     </div>
@@ -1301,6 +1316,139 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
   )
 };
 
+// --- NEW FEATURE: QUICK MATCH ---
+
+const QuickMatch = ({ unlockedLevelId }) => {
+  const [gameState, setGameState] = useState('start'); 
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [currentWord, setCurrentWord] = useState(null);
+  const [options, setOptions] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const activeVocab = useMemo(() => {
+    return LEVELS.filter(l => l.id <= unlockedLevelId).flatMap(l => l.vocab);
+  }, [unlockedLevelId]);
+
+  const generateQuestion = useCallback(() => {
+    const target = activeVocab[Math.floor(Math.random() * activeVocab.length)];
+    const distractors = shuffleArray(ALL_VOCAB.filter(w => w.id !== target.id)).slice(0, 5);
+    setOptions(shuffleArray([target, ...distractors]));
+    setCurrentWord(target);
+    setSelectedAnswer(null);
+  }, [activeVocab]);
+
+  const startGame = () => {
+    vibrate('tap');
+    setScore(0);
+    setTimeLeft(60);
+    setGameState('playing');
+    generateQuestion();
+  };
+
+  useEffect(() => {
+    let timer;
+    if (gameState === 'playing' && timeLeft > 0) {
+      timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
+    } else if (timeLeft === 0 && gameState === 'playing') {
+      setGameState('end');
+      setHighScore(prev => Math.max(prev, score));
+      playSound('win');
+    }
+    return () => clearInterval(timer);
+  }, [gameState, timeLeft, score]);
+
+  const handleAnswer = (opt) => {
+    if (selectedAnswer) return;
+    vibrate('tap');
+    setSelectedAnswer(opt);
+    
+    if (opt.id === currentWord.id) {
+      playSound('correct');
+      setScore(s => s + 10);
+      setTimeout(generateQuestion, 400);
+    } else {
+      playSound('incorrect');
+      setTimeout(generateQuestion, 600);
+    }
+  };
+
+  if (gameState === 'start') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 animation-fade-in text-center my-auto">
+        <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg">
+          <Timer size={48} />
+        </div>
+        <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Quick Match</h2>
+        <p className="text-slate-500 mb-8 max-w-[250px]">60 seconds. Match as many words as you can. Vocab drawn from your unlocked levels.</p>
+        <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all flex items-center justify-center gap-2">
+          <Play size={20} className="fill-current" /> Start Rush
+        </button>
+      </div>
+    );
+  }
+
+  if (gameState === 'end') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 animation-fade-in text-center my-auto">
+        <Trophy size={60} className="text-slate-800 mb-6" />
+        <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">Time's Up!</h2>
+        <p className="text-slate-500 mb-4">You scored <span className="font-bold text-slate-800">{score}</span> points.</p>
+        {highScore > 0 && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-10">High Score: {Math.max(score, highScore)}</p>}
+        
+        <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all mb-3">
+          Play Again
+        </button>
+        <button onClick={() => setGameState('start')} className="w-full max-w-xs bg-white text-slate-700 border border-slate-200 font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all">
+          Back
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-full p-6 pt-10 animation-fade-in pb-10 max-w-md mx-auto w-full">
+      <div className="flex items-center justify-between bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100 mb-6 shrink-0">
+         <div className="flex items-center gap-2">
+            <Trophy size={20} className="text-slate-400" />
+            <span className="font-bold text-slate-800 text-lg">{score}</span>
+         </div>
+         <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bold ${timeLeft <= 10 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
+            <Timer size={18} />
+            <span>0:{timeLeft.toString().padStart(2, '0')}</span>
+         </div>
+      </div>
+
+      <div className="bg-white w-full rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 p-8 text-center mb-6 shrink-0">
+        <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentWord.thai}</h2>
+        <p className="text-lg text-slate-500 font-medium">"{currentWord.phonetic}"</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 shrink-0">
+        {options.map((opt) => {
+          let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
+          if (selectedAnswer) {
+            if (opt.id === currentWord.id) btnClass = "bg-green-500 border-green-500 text-white scale-[1.02] shadow-md z-10";
+            else if (selectedAnswer.id === opt.id) btnClass = "bg-red-500 border-red-500 text-white";
+            else btnClass = "bg-white border-slate-100 text-slate-300 opacity-50";
+          }
+          return (
+            <button 
+              key={opt.id} 
+              onClick={() => handleAnswer(opt)} 
+              disabled={selectedAnswer !== null} 
+              className={`w-full p-4 rounded-[1.25rem] font-semibold text-sm transition-all flex items-center justify-center min-h-[4.5rem] ${btnClass}`}
+            >
+              {opt.eng}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 // --- MAIN APP COMPONENT ---
 
 export default function App() {
@@ -1335,6 +1483,7 @@ export default function App() {
           <div className="flex-1 w-full overflow-y-auto overflow-x-hidden hide-scrollbar sm:pt-4 pb-24">
             {currentTab === 'path' && !gameMode && <JourneyMap unlockedLevelId={unlockedLevelId} onSelectLevel={handleSelectMapNode} />}
             {currentTab === 'study' && !gameMode && <StudyHub level={activeLevel} unlockedLevelId={unlockedLevelId} onSelectMode={setGameMode} />}
+            {currentTab === 'quick' && !gameMode && <QuickMatch unlockedLevelId={unlockedLevelId} />}
             {currentTab === 'dictionary' && !gameMode && <Dictionary />}
             
             {/* Fullscreen Overlays */}
@@ -1352,6 +1501,7 @@ export default function App() {
                {[
                  { id: 'path', icon: MapIcon, label: 'Path' },
                  { id: 'study', icon: GraduationCap, label: 'Study' },
+                 { id: 'quick', icon: Timer, label: 'Quick' },
                  { id: 'dictionary', icon: BookMarked, label: 'Vocab' }
                ].map(tab => {
                  const Icon = tab.icon;
