@@ -250,7 +250,7 @@ const getPhonetic = (thaiWord) => {
 
 const JourneyMap = ({ unlockedLevelId, onSelectLevel }) => {
   return (
-    <div className="py-12 px-6 space-y-8 flex flex-col items-center relative min-h-full">
+    <div className="py-12 px-6 space-y-8 flex flex-col items-center relative min-h-full overflow-x-hidden">
       <div className="text-center mb-8 z-10 w-full">
         <h1 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Your Path</h1>
         <p className="text-sm text-slate-500 uppercase tracking-widest font-semibold">Unlock new levels</p>
@@ -423,6 +423,42 @@ const Lesson = ({ vocab, onBack }) => {
   const [currentG, setCurrentG] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
+  // Swipe State
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchStartY, setTouchStartY] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [touchEndY, setTouchEndY] = useState(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEndX(null);
+    setTouchEndY(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchStartY(e.targetTouches[0].clientY);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+    setTouchEndY(e.targetTouches[0].clientY);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX || !touchEndX || phase !== 'learn') return;
+    const distanceX = touchStartX - touchEndX;
+    const distanceY = touchStartY - touchEndY;
+    
+    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
+    
+    if (isHorizontalSwipe && Math.abs(distanceX) > minSwipeDistance) {
+      if (distanceX > 0) {
+        handleNextLearn();
+      } else {
+        handlePrevLearn();
+      }
+    }
+  };
+
   const generateGameQuestion = useCallback(() => {
     const word = vocab[Math.floor(Math.random() * vocab.length)];
     let isMatch = Math.random() > 0.5;
@@ -475,6 +511,13 @@ const Lesson = ({ vocab, onBack }) => {
       setStep(s => s + 1);
     } else {
       setPhase('game');
+    }
+  };
+
+  const handlePrevLearn = () => {
+    if (step > 0) {
+      vibrate('tap');
+      setStep(s => s - 1);
     }
   };
 
@@ -548,7 +591,12 @@ const Lesson = ({ vocab, onBack }) => {
   const word = vocab[step];
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
+    <div 
+      className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
@@ -590,12 +638,20 @@ const Lesson = ({ vocab, onBack }) => {
           </div>
         </div>
 
-        <button 
-          onClick={handleNextLearn} 
-          className="mt-8 w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shrink-0"
-        >
-          Got it <ArrowRight size={20} className="opacity-50" />
-        </button>
+        <div className="mt-8 w-full flex flex-col items-center gap-3 shrink-0">
+          <button 
+            onClick={handleNextLearn} 
+            className="w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2"
+          >
+            Got it <ArrowRight size={20} className="opacity-50" />
+          </button>
+          
+          {step > 0 && (
+             <button onClick={handlePrevLearn} className="text-slate-400 text-sm font-semibold active:scale-95 hover:text-slate-600 flex items-center gap-1 p-2">
+                <ArrowLeft size={16} /> Previous Card
+             </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -1182,7 +1238,7 @@ export default function App() {
         {/* Mobile Mockup */}
         <div className="w-full h-full sm:h-[850px] sm:w-[400px] bg-slate-50 sm:rounded-[3rem] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] sm:border-[10px] sm:border-slate-900 overflow-hidden relative flex flex-col">
           
-          <div className="flex-1 w-full overflow-y-auto hide-scrollbar sm:pt-4 pb-24">
+          <div className="flex-1 w-full overflow-y-auto overflow-x-hidden hide-scrollbar sm:pt-4 pb-24">
             {currentTab === 'path' && !gameMode && <JourneyMap unlockedLevelId={unlockedLevelId} onSelectLevel={handleSelectMapNode} />}
             {currentTab === 'study' && !gameMode && <StudyHub level={activeLevel} unlockedLevelId={unlockedLevelId} onSelectMode={setGameMode} />}
             {currentTab === 'dictionary' && !gameMode && <Dictionary />}
