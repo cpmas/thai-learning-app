@@ -62,6 +62,31 @@ const playSound = (type) => {
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
       osc.start();
       osc.stop(ctx.currentTime + 0.5);
+    } else if (type === 'high-score') {
+      osc.type = 'square';
+      
+      // Note 1: duh (C5)
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+      
+      // Note 2: duh (E5)
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.15);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.25);
+      
+      // Note 3: duh (G5)
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.3);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.3);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+      
+      // Note 4: duuuuh (C6)
+      osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.45);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.45);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.9);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.9);
     }
   } catch (e) {
     console.log("Audio play failed:", e);
@@ -309,6 +334,11 @@ const customStyles = `
   @keyframes slideInPrev { from { transform: translateX(-100vw); } to { transform: translateX(0); } }
   .animate-in-next { animation: slideInNext 0.25s ease-out forwards; }
   .animate-in-prev { animation: slideInPrev 0.25s ease-out forwards; }
+  
+  @keyframes confettiFall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
 `;
 
 const getPhonetic = (thaiWord) => {
@@ -1318,11 +1348,35 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
 
 // --- NEW FEATURE: QUICK MATCH ---
 
+const Confetti = () => {
+  return (
+    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+      {[...Array(60)].map((_, i) => (
+        <div 
+          key={i} 
+          className="absolute animate-[confettiFall_3s_ease-in-out_forwards]"
+          style={{
+            top: '-10%',
+            left: `${Math.random() * 100}%`,
+            backgroundColor: ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'][Math.floor(Math.random() * 6)],
+            width: `${Math.random() * 8 + 6}px`,
+            height: `${Math.random() * 16 + 10}px`,
+            animationDelay: `${Math.random() * 1.5}s`,
+            animationDuration: `${Math.random() * 2 + 2}s`,
+            transform: `rotate(${Math.random() * 360}deg)`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const QuickMatch = ({ unlockedLevelId }) => {
   const [gameState, setGameState] = useState('start'); 
   const [timeLeft, setTimeLeft] = useState(60);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
   const [currentWord, setCurrentWord] = useState(null);
   const [options, setOptions] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -1343,6 +1397,7 @@ const QuickMatch = ({ unlockedLevelId }) => {
     vibrate('tap');
     setScore(0);
     setTimeLeft(60);
+    setIsNewHighScore(false);
     setGameState('playing');
     generateQuestion();
   };
@@ -1353,11 +1408,16 @@ const QuickMatch = ({ unlockedLevelId }) => {
       timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
     } else if (timeLeft === 0 && gameState === 'playing') {
       setGameState('end');
-      setHighScore(prev => Math.max(prev, score));
-      playSound('win');
+      if (score > highScore && score > 0) {
+        setIsNewHighScore(true);
+        setHighScore(score);
+        playSound('high-score');
+      } else {
+        playSound('win');
+      }
     }
     return () => clearInterval(timer);
-  }, [gameState, timeLeft, score]);
+  }, [gameState, timeLeft, score, highScore]);
 
   const handleAnswer = (opt) => {
     if (selectedAnswer) return;
@@ -1376,13 +1436,21 @@ const QuickMatch = ({ unlockedLevelId }) => {
 
   if (gameState === 'start') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 animation-fade-in text-center my-auto">
-        <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg">
+      <div className="flex flex-col items-center justify-center h-full p-6 pb-12 animation-fade-in text-center max-w-md mx-auto w-full">
+        <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg shrink-0">
           <Timer size={48} />
         </div>
-        <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Quick Match</h2>
-        <p className="text-slate-500 mb-8 max-w-[250px]">60 seconds. Match as many words as you can. Vocab drawn from your unlocked levels.</p>
-        <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all flex items-center justify-center gap-2">
+        <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2 shrink-0">Quick Match</h2>
+        <p className="text-slate-500 mb-6 max-w-[250px] shrink-0">60 seconds. Match as many words as you can. Vocab drawn from your unlocked levels.</p>
+        
+        {highScore > 0 && (
+          <div className="mb-8 flex items-center gap-2 bg-amber-50 px-5 py-2.5 rounded-full text-amber-700 font-bold text-sm border border-amber-100 shadow-sm shrink-0">
+            <Trophy size={18} className="text-amber-500" />
+            High Score: {highScore}
+          </div>
+        )}
+
+        <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all flex items-center justify-center gap-2 shrink-0">
           <Play size={20} className="fill-current" /> Start Rush
         </button>
       </div>
@@ -1391,11 +1459,16 @@ const QuickMatch = ({ unlockedLevelId }) => {
 
   if (gameState === 'end') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 animation-fade-in text-center my-auto">
-        <Trophy size={60} className="text-slate-800 mb-6" />
-        <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">Time's Up!</h2>
+      <div className="flex flex-col items-center justify-center h-full p-6 animation-fade-in text-center relative z-10 pb-12 max-w-md mx-auto w-full">
+        {isNewHighScore && <Confetti />}
+        <Trophy size={60} className={`${isNewHighScore ? 'text-amber-500 animate-bounce' : 'text-slate-800'} mb-6`} />
+        <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">
+          {isNewHighScore ? 'New High Score!' : "Time's Up!"}
+        </h2>
         <p className="text-slate-500 mb-4">You scored <span className="font-bold text-slate-800">{score}</span> points.</p>
-        {highScore > 0 && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-10">High Score: {Math.max(score, highScore)}</p>}
+        
+        {highScore > 0 && !isNewHighScore && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-10">High Score: {highScore}</p>}
+        {isNewHighScore && <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mb-10">Previous Best Beaten!</p>}
         
         <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all mb-3">
           Play Again
@@ -1408,23 +1481,36 @@ const QuickMatch = ({ unlockedLevelId }) => {
   }
 
   return (
-    <div className="flex flex-col h-full p-6 pt-10 animation-fade-in pb-10 max-w-md mx-auto w-full">
-      <div className="flex items-center justify-between bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100 mb-6 shrink-0">
-         <div className="flex items-center gap-2">
-            <Trophy size={20} className="text-slate-400" />
-            <span className="font-bold text-slate-800 text-lg">{score}</span>
-         </div>
-         <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bold ${timeLeft <= 10 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
-            <Timer size={18} />
-            <span>0:{timeLeft.toString().padStart(2, '0')}</span>
-         </div>
+    <div className="flex flex-col h-full p-6 pt-6 pb-28 sm:pb-12 animation-fade-in max-w-md mx-auto w-full justify-between">
+      
+      {/* Top Bar Area */}
+      <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex items-center justify-between bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
+           <div className="flex flex-col items-start">
+             <div className="flex items-center gap-2">
+                <Trophy size={20} className="text-slate-400" />
+                <span className="font-bold text-slate-800 text-lg leading-none">{score}</span>
+             </div>
+             {highScore > 0 && <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-7 mt-1">Best: {highScore}</span>}
+             {highScore === 0 && <span className="text-[9px] font-bold text-transparent uppercase tracking-widest pl-7 mt-1">_</span> /* Spacer */}
+           </div>
+           
+           <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bold ${timeLeft <= 10 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
+              <Timer size={18} />
+              <span>0:{timeLeft.toString().padStart(2, '0')}</span>
+           </div>
+        </div>
       </div>
 
-      <div className="bg-white w-full rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 p-8 text-center mb-6 shrink-0">
-        <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentWord.thai}</h2>
-        <p className="text-lg text-slate-500 font-medium">"{currentWord.phonetic}"</p>
+      {/* Middle Playing Card */}
+      <div className="flex-1 flex items-center justify-center my-4 min-h-[160px]">
+        <div className="bg-white w-full rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 p-8 text-center shrink-0">
+          <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentWord.thai}</h2>
+          <p className="text-lg text-slate-500 font-medium">"{currentWord.phonetic}"</p>
+        </div>
       </div>
 
+      {/* Bottom Option Grid */}
       <div className="grid grid-cols-2 gap-3 shrink-0">
         {options.map((opt) => {
           let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
@@ -1438,7 +1524,7 @@ const QuickMatch = ({ unlockedLevelId }) => {
               key={opt.id} 
               onClick={() => handleAnswer(opt)} 
               disabled={selectedAnswer !== null} 
-              className={`w-full p-4 rounded-[1.25rem] font-semibold text-sm transition-all flex items-center justify-center min-h-[4.5rem] ${btnClass}`}
+              className={`w-full p-4 rounded-[1.25rem] font-semibold text-sm transition-all flex items-center justify-center min-h-[5rem] ${btnClass}`}
             >
               {opt.eng}
             </button>
