@@ -110,8 +110,8 @@ const LEVELS = [
       { eng: "My name is... (Male)", thai: ["ผม", "ชื่อ"] },
       { eng: "My name is... (Female)", thai: ["ฉัน", "ชื่อ"] },
       { eng: "What is my name?", thai: ["ฉัน", "ชื่อ", "อะไร"] },
-      { eng: "Glad to meet you.", thai: ["ยินดี"] },
-      { eng: "What name?", thai: ["ชื่อ", "อะไร"] }
+      { eng: "Glad, thank you.", thai: ["ยินดี", "ขอบคุณ"] },
+      { eng: "You are very good.", thai: ["คุณ", "ดี", "มาก"] }
     ]
   },
   {
@@ -134,95 +134,160 @@ const LEVELS = [
       { eng: "I come from Thailand. (Male)", thai: ["ผม", "มาจาก", "ประเทศ", "ไทย"] },
       { eng: "Thai person and English person.", thai: ["คน", "ไทย", "และ", "คน", "อังกฤษ"] },
       { eng: "I come from the city. (Female)", thai: ["ฉัน", "มาจาก", "เมือง"] },
-      { eng: "What country do you come from?", thai: ["คุณ", "มาจาก", "ประเทศ", "อะไร"] }
+      { eng: "What country do you come from?", thai: ["คุณ", "มาจาก", "ประเทศ", "อะไร"] },
+      { eng: "Where is England?", thai: ["ประเทศ", "อังกฤษ", "ที่ไหน"] }
     ]
   },
   {
     id: 4,
-    title: 'To Be Or Not To Be',
-    subtitle: 'Nouns & Linking',
+    title: 'Food & Preferences',
+    subtitle: 'To be, Eat, Like',
     icon: '🍲',
     vocab: [
       { id: 401, thai: 'เป็น', phonetic: 'bpen', eng: 'Is/Am/Are', emoji: '🔗', tone: 'Mid tone', usage: 'Used to link a noun to another noun, e.g., "I am a person".' },
       { id: 402, thai: 'อาหาร', phonetic: 'aa-hǎan', eng: 'Food', emoji: '🍲', tone: 'Mid, Rising tone', usage: 'Formal word for food, borrowed from ancient Sanskrit.' },
       { id: 403, thai: 'น้ำ', phonetic: 'náam', eng: 'Water', emoji: '💧', tone: 'High tone', usage: 'Means liquid/water. Placed before other words to name liquids.' },
       { id: 404, thai: 'อร่อย', phonetic: 'a-ròi', eng: 'Delicious', emoji: '😋', tone: 'Low, Low tone', usage: 'Placed directly after the noun it describes (e.g., food delicious).' },
+      { id: 405, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', tone: 'Mid tone', usage: 'Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
+      { id: 406, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', tone: 'Falling tone', usage: 'Placed before a noun or verb to indicate preference or favor.' },
     ],
     sentences: [
-      { eng: "Yes, I am a Thai person. (Female)", thai: ["ใช่", "ฉัน", "เป็น", "คน", "ไทย"] },
-      { eng: "I am not an English person. (Male)", thai: ["ผม", "ไม่", "ใช่", "คน", "อังกฤษ"] },
-      { eng: "The food is delicious.", thai: ["อาหาร", "อร่อย"] },
-      { eng: "Water is not delicious.", thai: ["น้ำ", "ไม่", "อร่อย"] },
-      { eng: "You are not a person.", thai: ["คุณ", "ไม่", "ใช่", "คน"] },
-      { eng: "What is delicious?", thai: ["อะไร", "อร่อย"] }
+      { eng: "The food is very delicious.", thai: ["อาหาร", "อร่อย", "มาก"] },
+      { eng: "I like to drink water. (Male)", thai: ["ผม", "ชอบ", "กิน", "น้ำ"] },
+      { eng: "I am a Thai person. (Female)", thai: ["ฉัน", "เป็น", "คน", "ไทย"] },
+      { eng: "You are not an English person.", thai: ["คุณ", "ไม่", "เป็น", "คน", "อังกฤษ"] },
+      { eng: "I like food and water. (Male)", thai: ["ผม", "ชอบ", "อาหาร", "และ", "น้ำ"] },
+      { eng: "Water is not delicious.", thai: ["น้ำ", "ไม่", "อร่อย"] }
     ]
   },
   {
     id: 5,
-    title: 'Questions',
-    subtitle: 'Who, what, where...',
-    icon: '❓',
+    title: 'Counting 1-5',
+    subtitle: 'Numbers (Part 1)',
+    icon: '1️⃣',
     vocab: [
-      { id: 501, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', tone: 'Mid tone', usage: 'Can act as the subject (Who eats?) or object (Eat who?).' },
-      { id: 502, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', tone: 'Mid, Mid tone', usage: 'The question word for "why", usually placed at the start of a sentence.' },
-      { id: 503, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', tone: 'Low tone', usage: 'Indicates physical location. Literally "To be (somewhere)".' },
-      { id: 504, thai: 'กิน', phonetic: 'gin', eng: 'Eat/Drink', emoji: '🍽️', tone: 'Mid tone', usage: 'Means to consume. In Thai, this is used for BOTH eating food and drinking liquids!' },
-      { id: 505, thai: 'ชอบ', phonetic: 'chôorb', eng: 'Like', emoji: '❤️', tone: 'Falling tone', usage: 'Placed before a noun or verb to indicate preference or favor.' },
+      { id: 501, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', tone: 'Low tone', usage: 'Root number one.' },
+      { id: 502, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', tone: 'Rising tone', usage: 'Root number two.' },
+      { id: 503, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', tone: 'Rising tone', usage: 'Root number three.' },
+      { id: 504, thai: 'สี่', phonetic: 'sìi', eng: 'Four', emoji: '4️⃣', tone: 'Falling tone', usage: 'Root number four.' },
+      { id: 505, thai: 'ห้า', phonetic: 'hâa', eng: 'Five', emoji: '5️⃣', tone: 'Falling tone', usage: 'Root number five.' },
     ],
     sentences: [
-      { eng: "Who likes to drink water?", thai: ["ใคร", "ชอบ", "กิน", "น้ำ"] },
-      { eng: "Why do you like to eat?", thai: ["ทำไม", "คุณ", "ชอบ", "กิน"] },
-      { eng: "Where do you live?", thai: ["คุณ", "อยู่", "ที่ไหน"] },
-      { eng: "I like food and water. (Male)", thai: ["ผม", "ชอบ", "อาหาร", "และ", "น้ำ"] },
-      { eng: "Why are you in England?", thai: ["ทำไม", "คุณ", "อยู่", "ประเทศ", "อังกฤษ"] },
-      { eng: "Who is a Thai person?", thai: ["ใคร", "เป็น", "คน", "ไทย"] }
+      { eng: "One, two, three.", thai: ["หนึ่ง", "สอง", "สาม"] },
+      { eng: "Four and five.", thai: ["สี่", "และ", "ห้า"] },
+      { eng: "One water and two foods.", thai: ["น้ำ", "หนึ่ง", "และ", "อาหาร", "สอง"] },
+      { eng: "Three Thai people.", thai: ["คน", "ไทย", "สาม", "คน"] },
+      { eng: "I eat four. (Female)", thai: ["ฉัน", "กิน", "สี่"] },
+      { eng: "Five English people.", thai: ["คน", "อังกฤษ", "ห้า", "คน"] }
     ]
   },
   {
     id: 6,
-    title: 'Nature',
-    subtitle: 'Animals & the world',
-    icon: '🐘',
+    title: 'Counting 6-10',
+    subtitle: 'Numbers (Part 2)',
+    icon: '🔟',
     vocab: [
-      { id: 601, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', tone: 'Mid tone', usage: 'Onomatopoeia - it sounds exactly like a meow!' },
-      { id: 602, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', tone: 'Rising tone', usage: 'Informal root word for dog.' },
-      { id: 603, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', tone: 'High tone', usage: 'Root word for elephant.' },
-      { id: 604, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', tone: 'High tone', usage: 'Root word for bird.' },
-      { id: 605, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', tone: 'Mid tone', usage: 'Root word for fish.' },
-      { id: 606, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', tone: 'High, Mid tone', usage: 'Root word for the sea.' },
-      { id: 607, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', tone: 'Low tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
-      { id: 608, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', tone: 'High tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+      { id: 601, thai: 'หก', phonetic: 'hòk', eng: 'Six', emoji: '6️⃣', tone: 'Low tone', usage: 'Root number six.' },
+      { id: 602, thai: 'เจ็ด', phonetic: 'jèt', eng: 'Seven', emoji: '7️⃣', tone: 'Low tone', usage: 'Root number seven.' },
+      { id: 603, thai: 'แปด', phonetic: 'bpàet', eng: 'Eight', emoji: '8️⃣', tone: 'Low tone', usage: 'Root number eight.' },
+      { id: 604, thai: 'เก้า', phonetic: 'gâo', eng: 'Nine', emoji: '9️⃣', tone: 'Falling tone', usage: 'Root number nine.' },
+      { id: 605, thai: 'สิบ', phonetic: 'sìp', eng: 'Ten', emoji: '🔟', tone: 'Low tone', usage: 'Root number ten.' },
     ],
     sentences: [
-      { eng: "A cat is not a dog.", thai: ["แมว", "ไม่", "ใช่", "หมา"] },
-      { eng: "Big elephant and small bird.", thai: ["ช้าง", "ใหญ่", "และ", "นก", "เล็ก"] },
-      { eng: "Fish live in the sea.", thai: ["ปลา", "อยู่", "ทะเล"] },
-      { eng: "Who likes cats?", thai: ["ใคร", "ชอบ", "แมว"] },
-      { eng: "The big dog eats food.", thai: ["หมา", "ใหญ่", "กิน", "อาหาร"] },
-      { eng: "Why do elephants like water?", thai: ["ทำไม", "ช้าง", "ชอบ", "น้ำ"] }
+      { eng: "Six, seven, eight.", thai: ["หก", "เจ็ด", "แปด"] },
+      { eng: "Nine and ten.", thai: ["เก้า", "และ", "สิบ"] },
+      { eng: "I like seven. (Male)", thai: ["ผม", "ชอบ", "เจ็ด"] },
+      { eng: "Nine waters and ten foods.", thai: ["น้ำ", "เก้า", "และ", "อาหาร", "สิบ"] },
+      { eng: "Ten Thai people.", thai: ["คน", "ไทย", "สิบ", "คน"] },
+      { eng: "I eat six. (Female)", thai: ["ฉัน", "กิน", "หก"] }
     ]
   },
   {
     id: 7,
-    title: 'Numbers & Shop',
-    subtitle: 'Counting and buying',
-    icon: '🛒',
+    title: 'Shopping Essentials',
+    subtitle: 'Prices and Basics',
+    icon: '🛍️',
     vocab: [
-      { id: 701, thai: 'หนึ่ง', phonetic: 'nùeng', eng: 'One', emoji: '1️⃣', tone: 'Low tone', usage: 'Root number one.' },
-      { id: 702, thai: 'สอง', phonetic: 'sǒng', eng: 'Two', emoji: '2️⃣', tone: 'Rising tone', usage: 'Root number two.' },
-      { id: 703, thai: 'สาม', phonetic: 'sǎam', eng: 'Three', emoji: '3️⃣', tone: 'Rising tone', usage: 'Root number three.' },
-      { id: 704, thai: 'ซื้อ', phonetic: 'súe', eng: 'Buy', emoji: '🛍️', tone: 'High tone', usage: 'Means to purchase something.' },
-      { id: 705, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', tone: 'Low tone', usage: 'The official Thai currency.' },
-      { id: 706, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '💸', tone: 'Mid tone', usage: 'Means high cost or pricey.' },
-      { id: 707, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', tone: 'Falling, Low tone', usage: 'The standard question word for asking quantity or price.' },
+      { id: 701, thai: 'ห้องน้ำ', phonetic: 'hông-náam', eng: 'Toilet', emoji: '🚽', tone: 'Falling, High tone', usage: 'The physical room for the toilet/restroom.' },
+      { id: 702, thai: 'เท่าไหร่', phonetic: 'tâo-rài', eng: 'How much', emoji: '💰', tone: 'Falling, Low tone', usage: 'Question word for asking price or quantity.' },
+      { id: 703, thai: 'บาท', phonetic: 'bàat', eng: 'Baht', emoji: '฿', tone: 'Low tone', usage: 'The official currency of Thailand.' },
+      { id: 704, thai: 'เอา', phonetic: 'ao', eng: 'Want/Take', emoji: '🤲', tone: 'Mid tone', usage: 'Used to say "I want" or "I will take" when ordering.' },
+      { id: 705, thai: 'อันนี้', phonetic: 'an-níi', eng: 'This one', emoji: '👇', tone: 'Mid, High tone', usage: 'Used to point out a specific item.' },
     ],
     sentences: [
-      { eng: "How much is the food?", thai: ["อาหาร", "เท่าไหร่"] },
-      { eng: "Buy two cats.", thai: ["ซื้อ", "แมว", "สอง"] },
-      { eng: "Three baht is not expensive.", thai: ["สาม", "บาท", "ไม่", "แพง"] },
-      { eng: "Why buy expensive water?", thai: ["ทำไม", "ซื้อ", "น้ำ", "แพง"] },
-      { eng: "Buy three delicious fish.", thai: ["ซื้อ", "ปลา", "อร่อย", "สาม"] },
-      { eng: "How much for one elephant?", thai: ["ช้าง", "หนึ่ง", "เท่าไหร่"] }
+      { eng: "How much is this one?", thai: ["อันนี้", "เท่าไหร่"] },
+      { eng: "I want this one. (Female)", thai: ["ฉัน", "เอา", "อันนี้"] },
+      { eng: "Ten baht.", thai: ["สิบ", "บาท"] },
+      { eng: "Where is the toilet?", thai: ["ห้องน้ำ", "ที่ไหน"] },
+      { eng: "I want water, how much? (Male)", thai: ["ผม", "เอา", "น้ำ", "เท่าไหร่"] },
+      { eng: "Two foods, how much?", thai: ["อาหาร", "สอง", "เท่าไหร่"] }
+    ]
+  },
+  {
+    id: 8,
+    title: 'Bargaining',
+    subtitle: 'Getting a good deal',
+    icon: '💸',
+    vocab: [
+      { id: 801, thai: 'แพง', phonetic: 'paeng', eng: 'Expensive', emoji: '📈', tone: 'Mid tone', usage: 'Means a price is too high.' },
+      { id: 802, thai: 'ลด', phonetic: 'lót', eng: 'Discount', emoji: '📉', tone: 'High tone', usage: 'Means to reduce or discount the price.' },
+      { id: 803, thai: 'หน่อย', phonetic: 'nòi', eng: 'A little / Please', emoji: '🤏', tone: 'Low tone', usage: 'Softens a request, making it sound more polite like "please".' },
+      { id: 804, thai: 'ได้ไหม', phonetic: 'dâi mǎi', eng: 'Can you?', emoji: '🥺', tone: 'Falling, Rising tone', usage: 'Added to the end of a request to ask "Can you do this?".' },
+      { id: 805, thai: 'มี', phonetic: 'mii', eng: 'Have', emoji: '✅', tone: 'Mid tone', usage: 'Indicates possession or existence.' },
+      { id: 806, thai: 'ไหม', phonetic: 'mǎi', eng: 'Question (?)', emoji: '❓', tone: 'Rising tone', usage: 'Turns any statement into a Yes/No question.' },
+    ],
+    sentences: [
+      { eng: "Very expensive, can you discount a little?", thai: ["แพง", "มาก", "ลด", "หน่อย", "ได้ไหม"] },
+      { eng: "Do you have this one?", thai: ["มี", "อันนี้", "ไหม"] },
+      { eng: "Is the food delicious?", thai: ["อาหาร", "อร่อย", "ไหม"] },
+      { eng: "Do you have ten baht?", thai: ["มี", "สิบ", "บาท", "ไหม"] },
+      { eng: "I don't have water. (Female)", thai: ["ฉัน", "ไม่", "มี", "น้ำ"] },
+      { eng: "Can you discount?", thai: ["ลด", "ได้ไหม"] }
+    ]
+  },
+  {
+    id: 9,
+    title: 'Questions & Verbs',
+    subtitle: 'Who, why, go...',
+    icon: '❓',
+    vocab: [
+      { id: 901, thai: 'ใคร', phonetic: 'krai', eng: 'Who', emoji: '👤', tone: 'Mid tone', usage: 'Can act as the subject (Who eats?) or object (Eat who?).' },
+      { id: 902, thai: 'ทำไม', phonetic: 'tam-mai', eng: 'Why', emoji: '🤔', tone: 'Mid, Mid tone', usage: 'The question word for "why", usually placed at the start of a sentence.' },
+      { id: 903, thai: 'อยู่', phonetic: 'yùu', eng: 'To live/be at', emoji: '🏠', tone: 'Low tone', usage: 'Indicates physical location. Literally "To be (somewhere)".' },
+      { id: 904, thai: 'ไป', phonetic: 'bpai', eng: 'Go', emoji: '🚶', tone: 'Mid tone', usage: 'Means to go.' },
+      { id: 905, thai: 'อยาก', phonetic: 'yàak', eng: 'Want to', emoji: '🤩', tone: 'Low tone', usage: 'Means to want to (do something), used BEFORE verbs.' },
+    ],
+    sentences: [
+      { eng: "Who wants to go to Thailand?", thai: ["ใคร", "อยาก", "ไป", "ประเทศ", "ไทย"] },
+      { eng: "Where do you live?", thai: ["คุณ", "อยู่", "ที่ไหน"] },
+      { eng: "Why do you like this one?", thai: ["ทำไม", "คุณ", "ชอบ", "อันนี้"] },
+      { eng: "I want to go to the toilet. (Male)", thai: ["ผม", "อยาก", "ไป", "ห้องน้ำ"] },
+      { eng: "Why is it expensive?", thai: ["ทำไม", "แพง"] },
+      { eng: "Who lives in the city?", thai: ["ใคร", "อยู่", "เมือง"] }
+    ]
+  },
+  {
+    id: 10,
+    title: 'Nature',
+    subtitle: 'Animals & the world',
+    icon: '🐘',
+    vocab: [
+      { id: 1001, thai: 'แมว', phonetic: 'maew', eng: 'Cat', emoji: '🐈', tone: 'Mid tone', usage: 'Onomatopoeia - it sounds exactly like a meow!' },
+      { id: 1002, thai: 'หมา', phonetic: 'mǎa', eng: 'Dog', emoji: '🐕', tone: 'Rising tone', usage: 'Informal root word for dog.' },
+      { id: 1003, thai: 'ช้าง', phonetic: 'cháang', eng: 'Elephant', emoji: '🐘', tone: 'High tone', usage: 'Root word for elephant.' },
+      { id: 1004, thai: 'นก', phonetic: 'nók', eng: 'Bird', emoji: '🐦', tone: 'High tone', usage: 'Root word for bird.' },
+      { id: 1005, thai: 'ปลา', phonetic: 'plaa', eng: 'Fish', emoji: '🐟', tone: 'Mid tone', usage: 'Root word for fish.' },
+      { id: 1006, thai: 'ทะเล', phonetic: 'tá-lay', eng: 'Sea / Ocean', emoji: '🌊', tone: 'High, Mid tone', usage: 'Root word for the sea.' },
+      { id: 1007, thai: 'ใหญ่', phonetic: 'yài', eng: 'Big', emoji: '⛰️', tone: 'Low tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+      { id: 1008, thai: 'เล็ก', phonetic: 'lék', eng: 'Small', emoji: '🐜', tone: 'High tone', usage: 'An adjective that is always placed AFTER the noun it describes.' },
+    ],
+    sentences: [
+      { eng: "A cat is not a dog.", thai: ["แมว", "ไม่", "เป็น", "หมา"] },
+      { eng: "I want to go to the sea. (Female)", thai: ["ฉัน", "อยาก", "ไป", "ทะเล"] },
+      { eng: "The big elephant is in the city.", thai: ["ช้าง", "ใหญ่", "อยู่", "เมือง"] },
+      { eng: "Do you have a small dog?", thai: ["คุณ", "มี", "หมา", "เล็ก", "ไหม"] },
+      { eng: "Why do birds like to eat fish?", thai: ["ทำไม", "นก", "ชอบ", "กิน", "ปลา"] },
+      { eng: "Big sea and small fish.", thai: ["ทะเล", "ใหญ่", "และ", "ปลา", "เล็ก"] }
     ]
   }
 ];
@@ -415,49 +480,18 @@ const Dictionary = () => {
 // --- STANDALONE GAMES (PRACTICE) ---
 
 const Lesson = ({ vocab, onBack }) => {
-  const [phase, setPhase] = useState('learn'); // 'learn', 'game', 'complete'
+  const [phase, setPhase] = useState('learn'); 
   const [step, setStep] = useState(0);
 
-  // Mini-Game State
   const [gameScore, setGameScore] = useState(0);
   const [currentG, setCurrentG] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
-  // Swipe State
-  const [touchStartX, setTouchStartX] = useState(null);
-  const [touchStartY, setTouchStartY] = useState(null);
-  const [touchEndX, setTouchEndX] = useState(null);
-  const [touchEndY, setTouchEndY] = useState(null);
-
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e) => {
-    setTouchEndX(null);
-    setTouchEndY(null);
-    setTouchStartX(e.targetTouches[0].clientX);
-    setTouchStartY(e.targetTouches[0].clientY);
-  };
-
-  const onTouchMove = (e) => {
-    setTouchEndX(e.targetTouches[0].clientX);
-    setTouchEndY(e.targetTouches[0].clientY);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStartX || !touchEndX || phase !== 'learn') return;
-    const distanceX = touchStartX - touchEndX;
-    const distanceY = touchStartY - touchEndY;
-    
-    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
-    
-    if (isHorizontalSwipe && Math.abs(distanceX) > minSwipeDistance) {
-      if (distanceX > 0) {
-        handleNextLearn();
-      } else {
-        handlePrevLearn();
-      }
-    }
-  };
+  const [panX, setPanX] = useState(0);
+  const [panY, setPanY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [exitDir, setExitDir] = useState(0);
+  const [touchStartPos, setTouchStartPos] = useState(null);
 
   const generateGameQuestion = useCallback(() => {
     const word = vocab[Math.floor(Math.random() * vocab.length)];
@@ -488,7 +522,7 @@ const Lesson = ({ vocab, onBack }) => {
          setFeedback(null);
          const newScore = gameScore + 1;
          setGameScore(newScore);
-         if (newScore >= 5) { // 5 to win
+         if (newScore >= 5) { 
             playSound('win');
             setPhase('complete');
          } else {
@@ -506,7 +540,6 @@ const Lesson = ({ vocab, onBack }) => {
   };
 
   const handleNextLearn = () => {
-    vibrate('tap');
     if (step < vocab.length - 1) {
       setStep(s => s + 1);
     } else {
@@ -516,9 +549,47 @@ const Lesson = ({ vocab, onBack }) => {
 
   const handlePrevLearn = () => {
     if (step > 0) {
-      vibrate('tap');
       setStep(s => s - 1);
     }
+  };
+
+  const onTouchStart = (e) => {
+    setTouchStartPos({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
+    setIsDragging(true);
+  };
+
+  const onTouchMove = (e) => {
+    if (!isDragging || !touchStartPos) return;
+    setPanX(e.targetTouches[0].clientX - touchStartPos.x);
+    setPanY(e.targetTouches[0].clientY - touchStartPos.y);
+  };
+
+  const onTouchEnd = () => {
+    setIsDragging(false);
+    if (panX < -100) {
+      setExitDir(-1);
+      vibrate('tap');
+      setTimeout(() => { handleNextLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
+    } else if (panX > 100 && step > 0) {
+      setExitDir(1);
+      vibrate('tap');
+      setTimeout(() => { handlePrevLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
+    } else {
+      setPanX(0); setPanY(0);
+    }
+    setTouchStartPos(null);
+  };
+
+  const triggerNext = () => {
+    vibrate('tap');
+    setExitDir(-1);
+    setTimeout(() => { handleNextLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
+  };
+
+  const triggerPrev = () => {
+    vibrate('tap');
+    setExitDir(1);
+    setTimeout(() => { handlePrevLearn(); setExitDir(0); setPanX(0); setPanY(0); }, 200);
   };
 
   if (phase === 'complete') {
@@ -541,7 +612,7 @@ const Lesson = ({ vocab, onBack }) => {
 
     return (
       <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
-        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
+        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
           <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
           <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
             {[0,1,2,3,4].map((i) => (
@@ -551,7 +622,7 @@ const Lesson = ({ vocab, onBack }) => {
           <Zap size={20} className="text-amber-500 fill-amber-500" />
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto overflow-hidden">
           <div className="mb-4 text-center shrink-0">
              <h3 className="text-xl font-light text-slate-800">Speed Check</h3>
              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Does this match?</p>
@@ -589,15 +660,16 @@ const Lesson = ({ vocab, onBack }) => {
   }
 
   const word = vocab[step];
+  const cardStyle = {
+    transform: exitDir !== 0 
+      ? `translate(${exitDir * 150}vw, ${panY}px) rotate(${exitDir * 30}deg)`
+      : `translate(${panX}px, ${panY}px) rotate(${panX * 0.05}deg)`,
+    transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+  };
 
   return (
-    <div 
-      className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in overflow-hidden">
+      <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
           {vocab.map((_, i) => (
@@ -607,14 +679,19 @@ const Lesson = ({ vocab, onBack }) => {
         <span className="font-semibold text-slate-500 text-sm">{step + 1}/{vocab.length}</span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
-        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center shrink-0">
-          <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100">{word.emoji}</div>
+      <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto relative overflow-hidden">
+        
+        <div 
+          onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
+          style={cardStyle}
+          className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 p-8 flex flex-col items-center text-center touch-none z-10"
+        >
+          <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
           
           <h2 className="text-5xl font-bold text-slate-900 mb-3">{word.thai}</h2>
           <p className="text-lg text-slate-500 font-medium mb-8">"{word.phonetic}"</p>
           
-          <div className="w-12 h-px bg-slate-200 mb-8"></div>
+          <div className="w-12 h-px bg-slate-200 mb-8 shrink-0"></div>
           
           <h3 className="text-2xl font-light text-slate-800 mb-8">{word.eng}</h3>
           
@@ -638,20 +715,17 @@ const Lesson = ({ vocab, onBack }) => {
           </div>
         </div>
 
-        <div className="mt-8 w-full flex flex-col items-center gap-3 shrink-0">
-          <button 
-            onClick={handleNextLearn} 
-            className="w-full bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2"
-          >
-            Got it <ArrowRight size={20} className="opacity-50" />
+        <div className="w-full flex justify-between items-center mt-8 px-2 z-0 shrink-0">
+          <button onClick={triggerPrev} disabled={step === 0} className={`p-3 flex flex-col items-center transition-opacity ${step === 0 ? 'opacity-30' : 'text-slate-500 hover:text-slate-800 active:scale-95'}`}>
+            <ArrowLeft size={24} />
+            <span className="text-[10px] uppercase font-bold mt-1 tracking-widest">Back</span>
           </button>
           
-          {step > 0 && (
-             <button onClick={handlePrevLearn} className="text-slate-400 text-sm font-semibold active:scale-95 hover:text-slate-600 flex items-center gap-1 p-2">
-                <ArrowLeft size={16} /> Previous Card
-             </button>
-          )}
+          <button onClick={triggerNext} className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold shadow-lg active:scale-95 transition-transform flex items-center gap-2">
+            {step < vocab.length - 1 ? 'Next' : 'Take Test'} <ArrowRight size={20} />
+          </button>
         </div>
+
       </div>
     </div>
   );
@@ -1211,7 +1285,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('path'); 
-  const [unlockedLevelId, setUnlockedLevelId] = useState(1);
+  const [unlockedLevelId, setUnlockedLevelId] = useState(LEVELS.length); // Unlocked all levels for development
   const [activeLevelId, setActiveLevelId] = useState(1);
   const [gameMode, setGameMode] = useState(null); 
 
