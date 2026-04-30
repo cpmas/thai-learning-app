@@ -391,11 +391,11 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full px-4 sm:px-6 pt-6 pb-28 sm:pb-28 animation-fade-in">
-      {/* Container is flex-col and justify-between, distributing the available height smoothly */}
-      <div className="w-full max-w-sm flex flex-col h-full justify-between">
+      {/* Container uses justify-evenly to put equal empty space between the 3 main blocks */}
+      <div className="w-full max-w-sm flex flex-col h-full justify-evenly">
         
-        {/* Section 1: Header (Takes ~1 share of the space) */}
-        <div className="flex-[1] flex flex-col items-center justify-center text-center w-full min-h-[120px]">
+        {/* Section 1: Header */}
+        <div className="flex flex-col items-center justify-center text-center w-full shrink-0">
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-3xl sm:text-4xl border border-slate-200 mb-3 sm:mb-4 transition-transform hover:scale-105">
             {level.icon}
           </div>
@@ -403,8 +403,8 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
           <p className="text-xs sm:text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
         </div>
 
-        {/* Section 2: Study Plan (Takes ~1.5 shares to give buttons plenty of room) */}
-        <div className="flex-[1.5] flex flex-col justify-center space-y-2 sm:space-y-3 w-full min-h-0">
+        {/* Section 2: Study Plan */}
+        <div className="flex flex-col justify-center space-y-3 sm:space-y-4 w-full shrink-0">
            <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-1">Study Plan</h3>
            
            <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-800 text-white p-4 sm:p-5 rounded-[1.25rem] sm:rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
@@ -429,7 +429,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
              <ArrowRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
            </button>
 
-           <div className="grid grid-cols-2 gap-2 sm:gap-3">
+           <div className="grid grid-cols-2 gap-3">
              <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-slate-600 text-white p-3 sm:p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-1 sm:gap-2 hover:bg-slate-500">
                <BookOpen size={22} className="text-white/90 sm:w-6 sm:h-6" />
                <span className="font-bold text-[10px] sm:text-[11px] uppercase tracking-widest mt-1">Cards</span>
@@ -441,8 +441,8 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
            </div>
         </div>
 
-        {/* Section 3: Final Challenge (Takes ~1 share, anchors to the bottom) */}
-        <div className="flex-[0.8] flex flex-col justify-end w-full min-h-0 pt-2 sm:pt-4">
+        {/* Section 3: Final Challenge */}
+        <div className="flex flex-col justify-end w-full shrink-0">
            <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-2 sm:mb-3">Final Challenge</h3>
            <button 
              onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
@@ -1417,10 +1417,10 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
   }
 
   return (
-    <div className="flex flex-col h-full px-4 sm:px-6 pt-4 pb-24 sm:pb-28 animation-fade-in max-w-md mx-auto w-full">
+    <div className="flex flex-col h-full px-4 sm:px-6 pt-4 pb-24 sm:pb-28 animation-fade-in max-w-md mx-auto w-full justify-between">
       
-      {/* Top Bar Area - Fixed Height */}
-      <div className="shrink-0 mb-3 sm:mb-4">
+      {/* Top Bar Area - Anchored to Top */}
+      <div className="shrink-0">
         <div className="flex items-center justify-between bg-white p-3 sm:p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
            <div className="flex items-center gap-2 sm:gap-4">
              <button onClick={() => { vibrate('tap'); setGameState('start'); }} className="p-1 sm:p-2 text-slate-400 hover:text-slate-800 transition-colors shrink-0">
@@ -1447,8 +1447,8 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
         </div>
       </div>
 
-      {/* Middle Playing Card - Flexible Height (Dark Box with Contrast) */}
-      <div className="flex-[1.2] flex items-center justify-center min-h-0 w-full py-2 sm:py-4">
+      {/* Middle Playing Card - Expands but forces margin gap top and bottom */}
+      <div className="flex-1 flex items-center justify-center w-full my-8 sm:my-10">
         <div className="bg-slate-900 w-full h-full max-h-[350px] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800 flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300">
           
           {/* Subtle inner gradient lighting */}
@@ -1461,9 +1461,9 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
         </div>
       </div>
 
-      {/* Bottom Option Grid - Distributed evenly filling height */}
-      <div className="flex-1 flex flex-col justify-end min-h-0 w-full">
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full h-full max-h-[240px]">
+      {/* Bottom Option Grid - Anchored to Bottom */}
+      <div className="shrink-0 w-full">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full">
           {options.map((opt) => {
             let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
             if (selectedAnswer) {
@@ -1476,7 +1476,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
                 key={opt.id} 
                 onClick={() => handleAnswer(opt)} 
                 disabled={selectedAnswer !== null} 
-                className={`w-full h-full min-h-[4.5rem] p-3 sm:p-4 rounded-[1.25rem] sm:rounded-[1.5rem] font-semibold text-[13px] sm:text-sm transition-all flex items-center justify-center shadow-[0_2px_10px_rgb(0,0,0,0.02)] ${btnClass}`}
+                className={`w-full min-h-[5rem] sm:min-h-[5.5rem] p-3 sm:p-4 rounded-[1.25rem] sm:rounded-[1.5rem] font-semibold text-[13px] sm:text-sm transition-all flex items-center justify-center shadow-[0_2px_10px_rgb(0,0,0,0.02)] ${btnClass}`}
               >
                 {opt.eng}
               </button>
