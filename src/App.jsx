@@ -1371,11 +1371,10 @@ const Confetti = () => {
   );
 };
 
-const QuickMatch = ({ unlockedLevelId }) => {
+const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
   const [gameState, setGameState] = useState('start'); 
   const [timeLeft, setTimeLeft] = useState(60);
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
   const [isNewHighScore, setIsNewHighScore] = useState(false);
   const [currentWord, setCurrentWord] = useState(null);
   const [options, setOptions] = useState([]);
@@ -1486,16 +1485,22 @@ const QuickMatch = ({ unlockedLevelId }) => {
       {/* Top Bar Area */}
       <div className="flex flex-col gap-2 shrink-0">
         <div className="flex items-center justify-between bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
-           <div className="flex flex-col items-start">
-             <div className="flex items-center gap-2">
-                <Trophy size={20} className="text-slate-400" />
-                <span className="font-bold text-slate-800 text-lg leading-none">{score}</span>
+           <div className="flex items-center gap-4">
+             <div className="flex flex-col items-center">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Score</span>
+                <div className="flex items-center gap-1.5">
+                  <Trophy size={16} className="text-amber-500" />
+                  <span className="font-bold text-slate-800 text-xl leading-none">{score}</span>
+                </div>
              </div>
-             {highScore > 0 && <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-7 mt-1">Best: {highScore}</span>}
-             {highScore === 0 && <span className="text-[9px] font-bold text-transparent uppercase tracking-widest pl-7 mt-1">_</span> /* Spacer */}
+             <div className="h-8 w-px bg-slate-200"></div>
+             <div className="flex flex-col items-center">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Best</span>
+                <span className="font-bold text-slate-600 text-lg leading-none">{highScore}</span>
+             </div>
            </div>
            
-           <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bold ${timeLeft <= 10 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
+           <div className={`flex items-center gap-2 px-4 py-2 rounded-[1rem] font-bold ${timeLeft <= 10 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
               <Timer size={18} />
               <span>0:{timeLeft.toString().padStart(2, '0')}</span>
            </div>
@@ -1542,6 +1547,7 @@ export default function App() {
   const [unlockedLevelId, setUnlockedLevelId] = useState(LEVELS.length); // Unlocked all levels for development
   const [activeLevelId, setActiveLevelId] = useState(1);
   const [gameMode, setGameMode] = useState(null); 
+  const [quickHighScore, setQuickHighScore] = useState(0);
 
   const activeLevel = LEVELS.find(l => l.id === activeLevelId);
 
@@ -1569,7 +1575,7 @@ export default function App() {
           <div className="flex-1 w-full overflow-y-auto overflow-x-hidden hide-scrollbar sm:pt-4 pb-24">
             {currentTab === 'path' && !gameMode && <JourneyMap unlockedLevelId={unlockedLevelId} onSelectLevel={handleSelectMapNode} />}
             {currentTab === 'study' && !gameMode && <StudyHub level={activeLevel} unlockedLevelId={unlockedLevelId} onSelectMode={setGameMode} />}
-            {currentTab === 'quick' && !gameMode && <QuickMatch unlockedLevelId={unlockedLevelId} />}
+            {currentTab === 'quick' && !gameMode && <QuickMatch unlockedLevelId={unlockedLevelId} highScore={quickHighScore} setHighScore={setQuickHighScore} />}
             {currentTab === 'dictionary' && !gameMode && <Dictionary />}
             
             {/* Fullscreen Overlays */}
