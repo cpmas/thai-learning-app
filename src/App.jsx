@@ -65,22 +65,18 @@ const playSound = (type) => {
     } else if (type === 'high-score') {
       osc.type = 'square';
       
-      // Note 1: duh (C5)
       osc.frequency.setValueAtTime(523.25, ctx.currentTime);
       gain.gain.setValueAtTime(0.1, ctx.currentTime);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
       
-      // Note 2: duh (E5)
       osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
       gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.15);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.25);
       
-      // Note 3: duh (G5)
       osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.3);
       gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.3);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
       
-      // Note 4: duuuuh (C6)
       osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.45);
       gain.gain.setValueAtTime(0.1, ctx.currentTime + 0.45);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.9);
@@ -330,11 +326,6 @@ const customStyles = `
   .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   
-  @keyframes slideInNext { from { transform: translateX(100vw); } to { transform: translateX(0); } }
-  @keyframes slideInPrev { from { transform: translateX(-100vw); } to { transform: translateX(0); } }
-  .animate-in-next { animation: slideInNext 0.25s ease-out forwards; }
-  .animate-in-prev { animation: slideInPrev 0.25s ease-out forwards; }
-  
   @keyframes confettiFall {
     0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
@@ -399,74 +390,74 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
   const isCompleted = level.id < unlockedLevelId;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-full p-6 animation-fade-in pb-10">
-      <div className="w-full max-w-sm flex flex-col gap-5 my-auto">
+    <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 animation-fade-in pb-20 sm:pb-24">
+      <div className="w-full max-w-sm flex flex-col h-full justify-center gap-3 sm:gap-5">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center w-full mb-2">
-          <div className="w-20 h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-4xl border border-slate-200 mb-4">
+        <div className="flex flex-col items-center text-center w-full mb-1 shrink-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-3xl sm:text-4xl border border-slate-200 mb-3 sm:mb-4">
             {level.icon}
           </div>
-          <h2 className="text-3xl font-bold text-slate-800 tracking-tight mb-1">{level.title}</h2>
-          <p className="text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight mb-1">{level.title}</h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
         </div>
 
-        <div className="space-y-3">
-           <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2">Study Plan</h3>
+        <div className="space-y-2 sm:space-y-3 shrink">
+           <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2">Study Plan</h3>
            
            {/* Step 1: Interactive Lesson */}
-           <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-800 text-white p-5 rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
-             <div className="flex items-center gap-4">
-               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><GraduationCap size={24} /></div>
+           <button onClick={() => { vibrate('tap'); onSelectMode('lesson'); }} className="w-full bg-slate-800 text-white p-4 sm:p-5 rounded-[1.25rem] sm:rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
+             <div className="flex items-center gap-3 sm:gap-4">
+               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><GraduationCap size={22} className="sm:w-6 sm:h-6" /></div>
                <div className="text-left">
-                 <span className="block text-lg font-bold">Interactive Lesson</span>
-                 <span className="block text-xs font-medium text-slate-300 mt-0.5">Learn words & tones</span>
+                 <span className="block text-base sm:text-lg font-bold">Interactive Lesson</span>
+                 <span className="block text-[10px] sm:text-xs font-medium text-slate-300 mt-0.5">Learn words & tones</span>
                </div>
              </div>
              <ArrowRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
            </button>
 
            {/* Step 2: Quiz (Full Width) */}
-           <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="w-full bg-slate-700 text-white p-5 rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
-             <div className="flex items-center gap-4">
-               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><Brain size={24} /></div>
+           <button onClick={() => { vibrate('tap'); onSelectMode('quiz'); }} className="w-full bg-slate-700 text-white p-4 sm:p-5 rounded-[1.25rem] sm:rounded-[1.5rem] shadow-md active:scale-95 transition-all flex items-center justify-between group">
+             <div className="flex items-center gap-3 sm:gap-4">
+               <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform"><Brain size={22} className="sm:w-6 sm:h-6" /></div>
                <div className="text-left">
-                 <span className="block text-lg font-bold">Quick Quiz</span>
-                 <span className="block text-xs font-medium text-slate-300 mt-0.5">Test your memory</span>
+                 <span className="block text-base sm:text-lg font-bold">Quick Quiz</span>
+                 <span className="block text-[10px] sm:text-xs font-medium text-slate-300 mt-0.5">Test your memory</span>
                </div>
              </div>
              <ArrowRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
            </button>
 
            {/* Step 3: Practice Minigames (Cards & Match) */}
-           <div className="grid grid-cols-2 gap-3">
-             <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-slate-600 text-white p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-slate-500">
-               <BookOpen size={24} className="text-white/90" />
-               <span className="font-bold text-[11px] uppercase tracking-widest mt-1">Cards</span>
+           <div className="grid grid-cols-2 gap-2 sm:gap-3">
+             <button onClick={() => { vibrate('tap'); onSelectMode('flashcards'); }} className="bg-slate-600 text-white p-3 sm:p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-1 sm:gap-2 hover:bg-slate-500">
+               <BookOpen size={22} className="text-white/90 sm:w-6 sm:h-6" />
+               <span className="font-bold text-[10px] sm:text-[11px] uppercase tracking-widest mt-1">Cards</span>
              </button>
-             <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-slate-600 text-white p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-2 hover:bg-slate-500">
-               <Grid size={24} className="text-white/90" />
-               <span className="font-bold text-[11px] uppercase tracking-widest mt-1">Match</span>
+             <button onClick={() => { vibrate('tap'); onSelectMode('match'); }} className="bg-slate-600 text-white p-3 sm:p-4 rounded-[1.25rem] shadow-md active:scale-95 transition-all flex flex-col items-center justify-center gap-1 sm:gap-2 hover:bg-slate-500">
+               <Grid size={22} className="text-white/90 sm:w-6 sm:h-6" />
+               <span className="font-bold text-[10px] sm:text-[11px] uppercase tracking-widest mt-1">Match</span>
              </button>
            </div>
         </div>
 
         {/* Step 4: Level Test */}
-        <div className="pt-2">
-           <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-3">Final Challenge</h3>
+        <div className="pt-1 sm:pt-2 shrink-0">
+           <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-2 sm:mb-3">Final Challenge</h3>
            <button 
              onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
-             className={`w-full p-5 rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group
+             className={`w-full p-4 sm:p-5 rounded-[1.25rem] sm:rounded-[1.5rem] transition-all active:scale-95 flex items-center justify-between group
                ${isCompleted ? 'bg-slate-200 text-slate-700' : 'bg-slate-900 text-white shadow-lg hover:bg-black'}
              `}
            >
-             <div className="flex items-center gap-4">
+             <div className="flex items-center gap-3 sm:gap-4">
                <div className={`p-3 rounded-2xl transition-transform group-hover:scale-110 ${isCompleted ? 'bg-white shadow-sm' : 'bg-white/10'}`}>
-                 {isCompleted ? <CheckCircle2 size={24} className="text-slate-600"/> : <Unlock size={24} />}
+                 {isCompleted ? <CheckCircle2 size={22} className="text-slate-600 sm:w-6 sm:h-6"/> : <Unlock size={22} className="sm:w-6 sm:h-6" />}
                </div>
                <div className="text-left">
-                 <span className="block text-lg font-bold">Level Test</span>
-                 <span className={`block text-xs font-medium mt-0.5 ${isCompleted ? 'text-slate-500' : 'text-slate-300'}`}>Pass to unlock next level</span>
+                 <span className="block text-base sm:text-lg font-bold">Level Test</span>
+                 <span className={`block text-[10px] sm:text-xs font-medium mt-0.5 ${isCompleted ? 'text-slate-500' : 'text-slate-300'}`}>Pass to unlock next level</span>
                </div>
              </div>
              <ArrowRight size={20} className={isCompleted ? "text-slate-400" : "text-slate-400 group-hover:text-white"} />
@@ -479,7 +470,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
 };
 
 const Dictionary = () => {
-  const [expandedSection, setExpandedSection] = useState(LEVELS[0].id);
+  const [expandedSection, setExpandedSection] = useState(null);
   const toggleSection = (id) => { vibrate('tap'); setExpandedSection(prev => prev === id ? null : id); };
 
   return (
@@ -604,7 +595,7 @@ const Lesson = ({ vocab, onBack }) => {
 
   if (phase === 'complete') {
     return (
-      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-50 animation-fade-in">
+      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-40 animation-fade-in pb-28 sm:pb-28">
         <Sparkles size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Lesson Complete</h2>
         <p className="text-slate-500 mb-10">You've reviewed all the words and passed the speed check!</p>
@@ -621,7 +612,7 @@ const Lesson = ({ vocab, onBack }) => {
     if (feedback === 'incorrect') containerClass = "bg-red-50 border-red-200 animate-pulse";
 
     return (
-      <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in">
+      <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40 animation-fade-in">
         <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
           <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
           <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
@@ -632,7 +623,7 @@ const Lesson = ({ vocab, onBack }) => {
           <Zap size={20} className="text-amber-500 fill-amber-500" />
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto overflow-hidden">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto overflow-hidden pb-28 sm:pb-28">
           <div className="mb-4 text-center shrink-0">
              <h3 className="text-xl font-light text-slate-800">Speed Check</h3>
              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Does this match?</p>
@@ -672,7 +663,7 @@ const Lesson = ({ vocab, onBack }) => {
   const word = vocab[step];
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 animation-fade-in overflow-hidden">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40 animation-fade-in overflow-hidden">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0 z-20">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800 transition-colors"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
@@ -683,7 +674,7 @@ const Lesson = ({ vocab, onBack }) => {
         <span className="font-semibold text-slate-500 text-sm">{step + 1}/{vocab.length}</span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-28 sm:pb-8 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
+      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-28 sm:pb-28 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
         
         <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center z-10 shrink-0 my-auto">
           <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
@@ -746,14 +737,14 @@ const Flashcards = ({ vocab, onBack }) => {
   const handlePrev = () => { setIsFlipped(false); setTimeout(() => setCurrentIndex((prev) => (prev - 1 + vocab.length) % vocab.length), 150); };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <span className="font-semibold text-slate-600 text-sm">Card {currentIndex + 1} / {vocab.length}</span>
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 perspective-1000 overflow-y-auto hide-scrollbar">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 pb-28 sm:pb-28 perspective-1000 overflow-y-auto hide-scrollbar">
         <div onClick={() => { vibrate('tap'); setIsFlipped(!isFlipped); }} className={`relative w-full max-w-sm h-[24rem] shrink-0 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
           <div className="absolute inset-0 w-full h-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 flex flex-col items-center justify-center p-8 backface-hidden">
             <span className="text-6xl mb-8">{word.emoji}</span>
@@ -817,7 +808,7 @@ const Quiz = ({ vocab, onBack }) => {
 
   if (isGameOver) {
     return (
-      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-50">
+      <div className="flex flex-col h-full bg-white items-center justify-center p-6 pb-28 sm:pb-28 text-center absolute inset-0 z-40">
         <Trophy size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">Quiz Complete</h2>
         <p className="text-slate-500 mb-10">Score: {score} / {questions.length}</p>
@@ -829,7 +820,7 @@ const Quiz = ({ vocab, onBack }) => {
   const currentQ = questions[currentQIndex];
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
          <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-1.5 flex-1 mx-4 justify-center">
@@ -837,7 +828,7 @@ const Quiz = ({ vocab, onBack }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center p-6 pt-12 pb-24 sm:pb-6 overflow-y-auto hide-scrollbar">
+      <div className="flex-1 flex flex-col items-center p-6 pt-12 pb-28 sm:pb-28 overflow-y-auto hide-scrollbar">
         <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8 shrink-0">
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Translate</p>
           <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentQ.target.thai}</h2>
@@ -909,14 +900,14 @@ const MatchGame = ({ vocab, onBack }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40">
        <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shrink-0">
          <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="font-semibold text-slate-600 text-sm">Moves: {moves}</div>
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-4 pb-28 sm:pb-8 overflow-hidden min-h-0 w-full">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 pb-28 sm:pb-28 overflow-hidden w-full">
         {matched === 6 ? (
            <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm shrink-0">
              <Trophy size={50} className="mx-auto text-slate-800 mb-4" />
@@ -924,7 +915,7 @@ const MatchGame = ({ vocab, onBack }) => {
              <button onClick={() => { vibrate('tap'); onBack(); }} className="w-full bg-slate-900 text-white py-4 rounded-[1.5rem] font-semibold active:scale-95">Done</button>
            </div>
         ) : (
-          <div className="grid grid-cols-3 grid-rows-4 gap-2.5 w-full max-w-sm h-full max-h-[70vh] perspective-1000 shrink-0 my-auto">
+          <div className="grid grid-cols-3 grid-rows-4 gap-2.5 w-full max-w-md h-full perspective-1000 my-auto">
             {cards.map((c, i) => (
               <div key={c.id} onClick={() => handleCardClick(i)} className={`relative w-full h-full cursor-pointer transition-transform duration-500 transform-style-3d ${c.flip || c.match ? 'rotate-y-180' : ''}`}>
                 <div className={`absolute inset-0 w-full h-full bg-slate-800 rounded-[1rem] backface-hidden flex items-center justify-center ${c.match ? 'opacity-0' : 'opacity-100'}`}>
@@ -985,7 +976,7 @@ const TestQuiz = ({ vocab, onIncorrect, onComplete }) => {
   const currentQ = questions[currentQIndex];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-28 sm:pb-28 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
       <div className="mb-4 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 1: Translate</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{currentQIndex + 1} of 4</p>
@@ -1055,7 +1046,7 @@ const TestMatch = ({ vocab, onIncorrect, onComplete }) => {
   if (!leftWords.length) return null;
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-24 sm:pb-6 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-28 sm:pb-28 w-full max-w-sm mx-auto animation-fade-in overflow-y-auto hide-scrollbar">
       <div className="mb-6 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 2: Connect</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{matchedPairs.length} of 4</p>
@@ -1164,7 +1155,7 @@ const TestSentenceBuilder = ({ level, onIncorrect, onComplete }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-6 pb-24 sm:pb-6 max-w-md mx-auto w-full animation-fade-in overflow-y-auto hide-scrollbar">
+    <div className="flex-1 flex flex-col p-6 pb-28 sm:pb-28 max-w-md mx-auto w-full animation-fade-in overflow-y-auto hide-scrollbar">
       <div className="mb-4 text-center shrink-0">
         <h3 className="text-xl font-light text-slate-800">Phase 3: Build</h3>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{currentIdx + 1} of 6</p>
@@ -1248,7 +1239,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
 
   if (failed) {
     return (
-      <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50 items-center justify-center p-6 text-center">
+      <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40 items-center justify-center p-6 text-center pb-28 sm:pb-28">
         <AlertCircle size={80} className="text-red-500 mb-6" />
         <h2 className="text-3xl font-light text-slate-900 mb-2">Test Failed</h2>
         <p className="text-slate-500 mb-10">You ran out of lives. Review the words and try again!</p>
@@ -1265,7 +1256,7 @@ const LevelTestManager = ({ level, onComplete, onBack }) => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-50">
+    <div className="flex flex-col h-full bg-slate-50 absolute inset-0 z-40">
       <div className="p-4 flex items-center justify-between bg-white border-b border-slate-100 shadow-sm z-10 shrink-0">
         <button onClick={() => { vibrate('tap'); onBack(); }} className="p-2 text-slate-400 hover:text-slate-800"><ArrowLeft size={24} /></button>
         <div className="flex space-x-2 flex-1 mx-6 justify-center">
@@ -1376,7 +1367,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
 
   if (gameState === 'start') {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-6 pb-12 animation-fade-in text-center max-w-md mx-auto w-full">
+      <div className="flex flex-col items-center justify-center h-full p-6 pb-28 animation-fade-in text-center max-w-md mx-auto w-full">
         <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg shrink-0">
           <Timer size={48} />
         </div>
@@ -1399,7 +1390,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
 
   if (gameState === 'end') {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-6 animation-fade-in text-center relative z-10 pb-12 max-w-md mx-auto w-full">
+      <div className="flex flex-col items-center justify-center h-full p-6 animation-fade-in text-center relative z-10 pb-28 max-w-md mx-auto w-full">
         {isNewHighScore && <Confetti />}
         <Trophy size={60} className={`${isNewHighScore ? 'text-amber-500 animate-bounce' : 'text-slate-800'} mb-6`} />
         <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">
@@ -1421,17 +1412,20 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
   }
 
   return (
-    <div className="flex flex-col h-full p-6 pt-6 pb-28 sm:pb-12 animation-fade-in max-w-md mx-auto w-full justify-between">
+    <div className="flex flex-col h-full p-6 pt-6 pb-28 sm:pb-28 animation-fade-in max-w-md mx-auto w-full justify-between">
       
       {/* Top Bar Area */}
       <div className="flex flex-col gap-2 shrink-0">
-        <div className="flex items-center justify-between bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
-           <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between bg-white p-2.5 sm:p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
+           <div className="flex items-center gap-2 sm:gap-4">
+             <button onClick={() => { vibrate('tap'); setGameState('start'); }} className="p-1 sm:p-2 text-slate-400 hover:text-slate-800 transition-colors shrink-0">
+               <ArrowLeft size={22} />
+             </button>
              <div className="flex flex-col items-center">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Score</span>
                 <div className="flex items-center gap-1.5">
                   <Trophy size={16} className="text-amber-500" />
-                  <span className="font-bold text-slate-800 text-xl leading-none">{score}</span>
+                  <span className="font-bold text-slate-800 text-lg sm:text-xl leading-none">{score}</span>
                 </div>
              </div>
              <div className="h-8 w-px bg-slate-200"></div>
@@ -1470,7 +1464,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
               key={opt.id} 
               onClick={() => handleAnswer(opt)} 
               disabled={selectedAnswer !== null} 
-              className={`w-full p-4 rounded-[1.25rem] font-semibold text-sm transition-all flex items-center justify-center min-h-[5rem] ${btnClass}`}
+              className={`w-full p-4 rounded-[1.25rem] font-semibold text-sm transition-all flex items-center justify-center min-h-[4.5rem] ${btnClass}`}
             >
               {opt.eng}
             </button>
@@ -1529,29 +1523,27 @@ export default function App() {
             {gameMode === 'level-test' && <LevelTestManager level={activeLevel} onComplete={handleLevelComplete} onBack={() => setGameMode(null)} />}
           </div>
 
-          {!gameMode && (
-            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 px-6 py-4 pb-6 sm:pb-6 flex justify-around items-center z-40 shrink-0">
-               {[
-                 { id: 'path', icon: MapIcon, label: 'Path' },
-                 { id: 'study', icon: GraduationCap, label: 'Study' },
-                 { id: 'quick', icon: Timer, label: 'Quick' },
-                 { id: 'dictionary', icon: BookMarked, label: 'Vocab' }
-               ].map(tab => {
-                 const Icon = tab.icon;
-                 const isActive = currentTab === tab.id;
-                 return (
-                   <button key={tab.id} onClick={() => { vibrate('tap'); setCurrentTab(tab.id); }} className={`flex flex-col items-center justify-center space-y-1.5 transition-colors ${isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>
-                     <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-slate-100 scale-110' : 'bg-transparent'}`}>
-                       <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                     </div>
-                     <span className={`text-[10px] tracking-wide ${isActive ? 'font-bold' : 'font-medium'}`}>{tab.label}</span>
-                   </button>
-                 )
-               })}
-            </div>
-          )}
+          <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 px-6 py-4 pb-6 sm:pb-6 flex justify-around items-center z-[60] shrink-0">
+             {[
+               { id: 'path', icon: MapIcon, label: 'Path' },
+               { id: 'study', icon: GraduationCap, label: 'Study' },
+               { id: 'quick', icon: Timer, label: 'Quick' },
+               { id: 'dictionary', icon: BookMarked, label: 'Vocab' }
+             ].map(tab => {
+               const Icon = tab.icon;
+               const isActive = currentTab === tab.id;
+               return (
+                 <button key={tab.id} onClick={() => { vibrate('tap'); setCurrentTab(tab.id); setGameMode(null); }} className={`flex flex-col items-center justify-center space-y-1.5 transition-colors ${isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>
+                   <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-slate-100 scale-110' : 'bg-transparent'}`}>
+                     <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                   </div>
+                   <span className={`text-[10px] tracking-wide ${isActive ? 'font-bold' : 'font-medium'}`}>{tab.label}</span>
+                 </button>
+               )
+             })}
+          </div>
           
-          <div className="hidden sm:block absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[35%] h-[5px] bg-slate-800 rounded-full z-50 pointer-events-none"></div>
+          <div className="hidden sm:block absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[35%] h-[5px] bg-slate-800 rounded-full z-[70] pointer-events-none"></div>
         </div>
       </div>
     </>
