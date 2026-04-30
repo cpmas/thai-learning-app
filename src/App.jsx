@@ -396,9 +396,6 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
         
         {/* Section 1: Header */}
         <div className="flex flex-col items-center text-center">
-          <div className="w-20 h-20 bg-white rounded-[1.75rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex items-center justify-center text-4xl border border-slate-100 mb-5 transition-transform hover:scale-105">
-            {level.icon}
-          </div>
           <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-2 leading-tight">{level.title}</h2>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-full">
             <span className="text-xs text-slate-600 font-bold uppercase tracking-wider">Level {level.id}</span>
@@ -1427,7 +1424,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
   }
 
   return (
-    <div className="flex flex-col min-h-full px-5 pt-6 pb-32 animation-fade-in max-w-md mx-auto w-full gap-6">
+    <div className="flex flex-col h-full px-5 py-4 animation-fade-in max-w-md mx-auto w-full gap-4">
       
       {/* Top Bar Area - Anchored to Top */}
       <div className="shrink-0 w-full">
@@ -1458,8 +1455,8 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
       </div>
 
       {/* Middle Playing Card - Expands but flexes naturally */}
-      <div className="flex-1 w-full flex items-center justify-center my-2">
-        <div className="bg-slate-900 w-full rounded-[2rem] shadow-xl border border-slate-800 flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300 py-16 px-6">
+      <div className="flex-1 w-full flex items-center justify-center min-h-0">
+        <div className="bg-slate-900 w-full h-full rounded-[2rem] shadow-xl border border-slate-800 flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300 p-6">
           
           {/* Subtle inner gradient lighting */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 opacity-60"></div>
