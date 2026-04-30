@@ -390,11 +390,11 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
   const isCompleted = level.id < unlockedLevelId;
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 animation-fade-in pb-20 sm:pb-24">
-      <div className="w-full max-w-sm flex flex-col h-full justify-center gap-3 sm:gap-5">
+    <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 animation-fade-in pb-24 sm:pb-24">
+      <div className="w-full max-w-sm flex flex-col h-full justify-evenly">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center w-full mb-1 shrink-0">
+        <div className="flex flex-col items-center text-center w-full shrink-0">
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-[1.5rem] shadow-sm flex items-center justify-center text-3xl sm:text-4xl border border-slate-200 mb-3 sm:mb-4">
             {level.icon}
           </div>
@@ -402,7 +402,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
           <p className="text-xs sm:text-sm text-slate-500 font-medium">Level {level.id} • {level.vocab.length} Words</p>
         </div>
 
-        <div className="space-y-2 sm:space-y-3 shrink">
+        <div className="space-y-2 sm:space-y-3 shrink-0">
            <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2">Study Plan</h3>
            
            {/* Step 1: Interactive Lesson */}
@@ -443,7 +443,7 @@ const StudyHub = ({ level, unlockedLevelId, onSelectMode }) => {
         </div>
 
         {/* Step 4: Level Test */}
-        <div className="pt-1 sm:pt-2 shrink-0">
+        <div className="shrink-0">
            <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 mb-2 sm:mb-3">Final Challenge</h3>
            <button 
              onClick={() => { vibrate('tap'); onSelectMode('level-test'); }} 
@@ -595,7 +595,7 @@ const Lesson = ({ vocab, onBack }) => {
 
   if (phase === 'complete') {
     return (
-      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-40 animation-fade-in pb-28 sm:pb-28">
+      <div className="flex flex-col h-full bg-white items-center justify-center p-6 text-center absolute inset-0 z-40 animation-fade-in pb-24 sm:pb-24">
         <Sparkles size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2">Lesson Complete</h2>
         <p className="text-slate-500 mb-10">You've reviewed all the words and passed the speed check!</p>
@@ -623,34 +623,34 @@ const Lesson = ({ vocab, onBack }) => {
           <Zap size={20} className="text-amber-500 fill-amber-500" />
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto overflow-hidden pb-28 sm:pb-28">
-          <div className="mb-4 text-center shrink-0">
+        <div className="flex-1 flex flex-col items-center justify-between p-6 pb-24 sm:pb-24 w-full max-w-sm mx-auto overflow-hidden">
+          <div className="text-center shrink-0">
              <h3 className="text-xl font-light text-slate-800">Speed Check</h3>
              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Does this match?</p>
           </div>
 
-          <div className={`w-full rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 p-8 flex flex-col items-center text-center transition-colors duration-300 shrink-0 ${containerClass}`}>
-            <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentG.word.thai}</h2>
-            <p className="text-lg text-slate-500 font-medium mb-6">"{currentG.word.phonetic}"</p>
+          <div className={`w-full rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 p-6 flex flex-col items-center justify-center text-center transition-colors duration-300 flex-1 my-4 min-h-0 ${containerClass}`}>
+            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-2">{currentG.word.thai}</h2>
+            <p className="text-base sm:text-lg text-slate-500 font-medium mb-4 sm:mb-6">"{currentG.word.phonetic}"</p>
             
-            <div className="w-12 h-px bg-slate-200 mb-6"></div>
+            <div className="w-12 h-px bg-slate-200 mb-4 sm:mb-6"></div>
             
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Means</p>
-            <h3 className="text-3xl font-light text-slate-800">{currentG.displayEng}</h3>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Means</p>
+            <h3 className="text-2xl sm:text-3xl font-light text-slate-800">{currentG.displayEng}</h3>
           </div>
 
-          <div className="mt-8 w-full flex gap-4 shrink-0">
+          <div className="w-full flex gap-3 shrink-0">
             <button 
               onClick={() => handleGameGuess(false)} 
               disabled={feedback !== null}
-              className="flex-1 bg-white text-red-500 border border-slate-200 p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
+              className="flex-1 bg-white text-red-500 border border-slate-200 p-4 rounded-[1.5rem] font-semibold text-base active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
             >
               <XCircle size={20} /> False
             </button>
             <button 
               onClick={() => handleGameGuess(true)} 
               disabled={feedback !== null}
-              className="flex-1 bg-slate-900 text-white p-5 rounded-[1.5rem] font-semibold text-lg active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
+              className="flex-1 bg-slate-900 text-white p-4 rounded-[1.5rem] font-semibold text-base active:scale-95 transition-all flex justify-center items-center gap-2 shadow-sm"
             >
               <CheckCircle2 size={20} /> True
             </button>
@@ -674,39 +674,39 @@ const Lesson = ({ vocab, onBack }) => {
         <span className="font-semibold text-slate-500 text-sm">{step + 1}/{vocab.length}</span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-28 sm:pb-28 w-full max-w-sm mx-auto overflow-y-auto hide-scrollbar">
+      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-24 sm:pb-24 w-full max-w-sm mx-auto overflow-hidden">
         
-        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 flex flex-col items-center text-center z-10 shrink-0 my-auto">
-          <div className="text-6xl mb-8 bg-slate-50 w-24 h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
+        <div className="w-full bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-6 flex flex-col items-center justify-center text-center z-10 flex-1 my-4 min-h-0 overflow-hidden">
+          <div className="text-5xl sm:text-6xl mb-4 bg-slate-50 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-full border border-slate-100 shrink-0">{word.emoji}</div>
           
-          <h2 className="text-5xl font-bold text-slate-900 mb-3">{word.thai}</h2>
-          <p className="text-lg text-slate-500 font-medium mb-8">"{word.phonetic}"</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-2 shrink-0">{word.thai}</h2>
+          <p className="text-base sm:text-lg text-slate-500 font-medium mb-4 shrink-0">"{word.phonetic}"</p>
           
-          <div className="w-12 h-px bg-slate-200 mb-8 shrink-0"></div>
+          <div className="w-12 h-px bg-slate-200 mb-4 shrink-0"></div>
           
-          <h3 className="text-2xl font-light text-slate-800 mb-8">{word.eng}</h3>
+          <h3 className="text-xl sm:text-2xl font-light text-slate-800 mb-4 sm:mb-6 shrink-0">{word.eng}</h3>
           
-          <div className="w-full space-y-3">
-            <div className="w-full bg-slate-50 rounded-[1rem] p-4 text-left">
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-2">
+          <div className="w-full space-y-2 overflow-y-auto hide-scrollbar">
+            <div className="w-full bg-slate-50 rounded-[1rem] p-3 sm:p-4 text-left">
+              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
                 Usage
               </p>
-              <p className="text-sm font-medium text-slate-700">
+              <p className="text-xs sm:text-sm font-medium text-slate-700 leading-snug">
                 {word.usage}
               </p>
             </div>
-            <div className="w-full bg-indigo-50/50 border border-indigo-50 rounded-[1rem] p-4 text-left">
-              <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-2">
+            <div className="w-full bg-slate-100/80 border border-slate-200 rounded-[1rem] p-3 sm:p-4 text-left">
+              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
                 Tone
               </p>
-              <p className="text-sm font-medium text-indigo-900">
+              <p className="text-xs sm:text-sm font-medium text-slate-800 leading-snug">
                 {word.tone}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="w-full flex justify-between items-center mt-6 pt-2 shrink-0">
+        <div className="w-full flex justify-between items-center shrink-0">
           <button 
             onClick={handlePrevLearn} 
             disabled={step === 0} 
@@ -808,7 +808,7 @@ const Quiz = ({ vocab, onBack }) => {
 
   if (isGameOver) {
     return (
-      <div className="flex flex-col h-full bg-white items-center justify-center p-6 pb-28 sm:pb-28 text-center absolute inset-0 z-40">
+      <div className="flex flex-col h-full bg-white items-center justify-center p-6 pb-24 sm:pb-24 text-center absolute inset-0 z-40">
         <Trophy size={60} className="text-slate-800 mb-6" />
         <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">Quiz Complete</h2>
         <p className="text-slate-500 mb-10">Score: {score} / {questions.length}</p>
@@ -828,14 +828,14 @@ const Quiz = ({ vocab, onBack }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center p-6 pt-12 pb-28 sm:pb-28 overflow-y-auto hide-scrollbar">
-        <div className="bg-white w-full max-w-sm rounded-[2rem] shadow-sm border border-slate-100 p-8 text-center mb-8 shrink-0">
+      <div className="flex-1 flex flex-col items-center justify-between p-6 pb-24 sm:pb-24 max-w-md mx-auto w-full">
+        <div className="bg-white w-full rounded-[2rem] shadow-sm border border-slate-100 p-8 flex flex-col items-center justify-center text-center my-4 flex-1 min-h-0 shrink-0">
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Translate</p>
-          <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentQ.target.thai}</h2>
-          <p className="text-lg text-slate-500">"{currentQ.target.phonetic}"</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-3">{currentQ.target.thai}</h2>
+          <p className="text-base sm:text-lg text-slate-500">"{currentQ.target.phonetic}"</p>
         </div>
 
-        <div className="w-full max-w-sm space-y-3 shrink-0">
+        <div className="w-full space-y-3 shrink-0">
           {currentQ.options.map((opt) => {
             let btnClass = "bg-white border border-slate-200 text-slate-700 hover:border-slate-400 shadow-sm";
             let Icon = null;
@@ -845,7 +845,7 @@ const Quiz = ({ vocab, onBack }) => {
               else { btnClass = "bg-white border-slate-100 text-slate-300 opacity-50"; }
             }
             return (
-              <button key={opt.id} onClick={() => handleAnswer(opt)} disabled={selectedAnswer !== null} className={`w-full p-5 rounded-[1.5rem] font-semibold transition-all flex items-center justify-between ${btnClass}`}>
+              <button key={opt.id} onClick={() => handleAnswer(opt)} disabled={selectedAnswer !== null} className={`w-full p-4 sm:p-5 rounded-[1.5rem] font-semibold transition-all flex items-center justify-between ${btnClass}`}>
                 <span>{opt.eng}</span>{Icon}
               </button>
             );
@@ -907,7 +907,7 @@ const MatchGame = ({ vocab, onBack }) => {
         <div className="w-10"></div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-4 pb-28 sm:pb-28 overflow-hidden w-full">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 pb-24 sm:pb-24 w-full">
         {matched === 6 ? (
            <div className="text-center bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 w-full max-w-sm shrink-0">
              <Trophy size={50} className="mx-auto text-slate-800 mb-4" />
@@ -922,8 +922,8 @@ const MatchGame = ({ vocab, onBack }) => {
                   <span className="text-white/20 text-2xl font-serif">🇹🇭</span>
                 </div>
                 <div className={`absolute inset-0 w-full h-full rounded-[1rem] shadow-sm backface-hidden rotate-y-180 flex flex-col items-center justify-center p-2 text-center border border-slate-200 overflow-hidden ${c.match ? 'bg-slate-100 opacity-50' : 'bg-white'}`}>
-                  <span className={`font-bold ${c.type === 't' ? 'text-lg sm:text-xl' : 'text-sm sm:text-base'} text-slate-800 leading-tight mb-1`}>{c.text}</span>
-                  <span className="text-[10px] text-slate-400 leading-none">{c.sub}</span>
+                  <span className={`font-bold ${c.type === 't' ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} text-slate-800 leading-tight mb-1`}>{c.text}</span>
+                  <span className="text-[9px] sm:text-[10px] text-slate-400 leading-none">{c.sub}</span>
                 </div>
               </div>
             ))}
@@ -1367,19 +1367,21 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
 
   if (gameState === 'start') {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-6 pb-28 animation-fade-in text-center max-w-md mx-auto w-full">
-        <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg shrink-0">
-          <Timer size={48} />
-        </div>
-        <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2 shrink-0">Quick Match</h2>
-        <p className="text-slate-500 mb-6 max-w-[250px] shrink-0">60 seconds. Match as many words as you can. Vocab drawn from your unlocked levels.</p>
-        
-        {highScore > 0 && (
-          <div className="mb-8 flex items-center gap-2 bg-amber-50 px-5 py-2.5 rounded-full text-amber-700 font-bold text-sm border border-amber-100 shadow-sm shrink-0">
-            <Trophy size={18} className="text-amber-500" />
-            High Score: {highScore}
+      <div className="flex flex-col items-center justify-between h-full p-6 pb-24 animation-fade-in text-center max-w-md mx-auto w-full">
+        <div className="w-full flex-1 flex flex-col items-center justify-center">
+          <div className="w-24 h-24 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center mb-6 shadow-lg shrink-0">
+            <Timer size={48} />
           </div>
-        )}
+          <h2 className="text-3xl font-light tracking-tight text-slate-800 mb-2 shrink-0">Quick Match</h2>
+          <p className="text-slate-500 mb-6 max-w-[250px] shrink-0">60 seconds. Match as many words as you can. Vocab drawn from your unlocked levels.</p>
+          
+          {highScore > 0 && (
+            <div className="mb-2 flex items-center gap-2 bg-slate-100 px-5 py-2.5 rounded-full text-slate-700 font-bold text-sm border border-slate-200 shadow-sm shrink-0">
+              <Trophy size={18} className="text-slate-500" />
+              High Score: {highScore}
+            </div>
+          )}
+        </div>
 
         <button onClick={startGame} className="w-full max-w-xs bg-slate-900 text-white font-semibold py-4 rounded-[1.5rem] active:scale-95 transition-all flex items-center justify-center gap-2 shrink-0">
           <Play size={20} className="fill-current" /> Start Rush
@@ -1390,9 +1392,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
 
   if (gameState === 'end') {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-6 animation-fade-in text-center relative z-10 pb-28 max-w-md mx-auto w-full">
-        {isNewHighScore && <Confetti />}
-        <Trophy size={60} className={`${isNewHighScore ? 'text-amber-500 animate-bounce' : 'text-slate-800'} mb-6`} />
+      <div className="flex flex-col items-center justify-center h-full p-6 animation-fade-in text-center relative z-10 pb-24 max-w-md mx-auto w-full">
         <h2 className="text-3xl font-light tracking-tight text-slate-900 mb-2">
           {isNewHighScore ? 'New High Score!' : "Time's Up!"}
         </h2>
@@ -1412,7 +1412,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
   }
 
   return (
-    <div className="flex flex-col h-full p-6 pt-6 pb-28 sm:pb-28 animation-fade-in max-w-md mx-auto w-full justify-between">
+    <div className="flex flex-col h-full p-6 pt-4 pb-24 sm:pb-24 animation-fade-in max-w-md mx-auto w-full justify-between">
       
       {/* Top Bar Area */}
       <div className="flex flex-col gap-2 shrink-0">
@@ -1424,7 +1424,7 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
              <div className="flex flex-col items-center">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Score</span>
                 <div className="flex items-center gap-1.5">
-                  <Trophy size={16} className="text-amber-500" />
+                  <Trophy size={16} className="text-slate-800" />
                   <span className="font-bold text-slate-800 text-lg sm:text-xl leading-none">{score}</span>
                 </div>
              </div>
@@ -1443,10 +1443,10 @@ const QuickMatch = ({ unlockedLevelId, highScore, setHighScore }) => {
       </div>
 
       {/* Middle Playing Card */}
-      <div className="flex-1 flex items-center justify-center my-4 min-h-[160px]">
-        <div className="bg-white w-full rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 p-8 text-center shrink-0">
-          <h2 className="text-5xl font-bold text-slate-900 mb-3">{currentWord.thai}</h2>
-          <p className="text-lg text-slate-500 font-medium">"{currentWord.phonetic}"</p>
+      <div className="flex-1 flex items-center justify-center my-4 min-h-[140px]">
+        <div className="bg-slate-100 w-full h-full max-h-[220px] rounded-[2rem] shadow-inner border border-slate-200 p-6 flex flex-col items-center justify-center text-center shrink-0">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-2">{currentWord.thai}</h2>
+          <p className="text-base sm:text-lg text-slate-500 font-medium">"{currentWord.phonetic}"</p>
         </div>
       </div>
 
